@@ -2,18 +2,19 @@ const Service = require("../services/LoginService");
 
 async function doLogin(req, res) {
   try {
-    const { UsuarioID, Codigo } = req.body;
+    const { usuarioID, codigo } = req.body;
+    console.log(`ID: ${usuarioID} | codigo ${codigo}`);
     if (codigo == null || codigo < 100000 || codigo > 999999) {
       return res
         .status(400)
         .json({ message: "El código ingresado no es valido." });
     }
-    if (UsuarioID == 0 || UsuarioID == null) {
+    if (usuarioID == 0 || usuarioID == null) {
       return res
         .status(400)
         .json({ message: "El ID de Usuario no es valido." });
     }
-    const respuesta = await Service.loginUsuario(UsuarioID, Codigo);
+    const respuesta = await Service.loginUsuario(usuarioID, codigo);
     if (respuesta == null) {
       res.status(300);
       res.json({ message: "El Codigo ingresado es incorrecto" });
