@@ -6,6 +6,7 @@ require("dotenv").config();
 
 app.listen(port, () => {
   try {
+    console.log("listening on root");
     console.log(`Server listening on port ${port}`);
     app.use(express.json());
     app.use("/api", Router);

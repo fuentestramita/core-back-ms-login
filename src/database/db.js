@@ -10,24 +10,25 @@ const dbLogin = async (idLogin, passLogin) => {
       Password: "12345",
     },
   ];
-  const foundUser = await dbVerify(idLogin);
-  if (foundUser.length == 0) {
-    return null;
-  }
-  return new Promise((resolve, reject) => {
-    try {
-      sql.query(
-        connectionString,
-        `exec SEL_Login '${idLogin}', '${passLogin}'`,
-        (err, rows) => {
-          if (err != null) console.log(err);
-          resolve(rows);
-        }
-      );
-    } catch (error) {
-      return reject(error);
-    }
-  });
+
+  // const foundUser = await dbVerify(idLogin);
+  // if (foundUser.length == 0) {
+  //   return null;
+  // }
+  // return new Promise((resolve, reject) => {
+  //   try {
+  //     sql.query(
+  //       connectionString,
+  //       `exec SEL_Login '${idLogin}', '${passLogin}'`,
+  //       (err, rows) => {
+  //         if (err != null) console.log(err);
+  //         resolve(rows);
+  //       }
+  //     );
+  //   } catch (error) {
+  //     return reject(error);
+  //   }
+  // });
 };
 
 const dbVerify = async (idLogin) => {
