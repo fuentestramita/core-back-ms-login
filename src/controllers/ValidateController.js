@@ -43,7 +43,7 @@ const doValidate = async (req, res) => {
 
 const generateToken = (foundUser, res) => {
   const access_key = process.env.ACCESS_KEY;
-  const refresh_key = process.env.ACCESS_KEY;
+  const refresh_key = process.env.REFRESH_KEY;
 
   if (foundUser != null && typeof foundUser != "undefined") {
     //Handle JWT (UsuarioID, RUTUsuario)

@@ -2,7 +2,7 @@ POST http://localhost:8080/api/validate
 content-type: application/json
 
 {
-    "inputRut":"19959357-9",
+    "inputRut":"19959357-",
     "inputPass":"12345"
 }
 ###
