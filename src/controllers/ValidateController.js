@@ -2,7 +2,7 @@ const Service = require("../services/ValidateService");
 const { validateRut } = require("@fdograph/rut-utilities");
 const jwt = require("jsonwebtoken");
 
-const doValidate = async (req, res) => {
+const doValidate = (req, res) => {
   try {
     const { inputRut, inputPass } = req.body;
     if (!inputRut || !inputPass) {
@@ -12,7 +12,7 @@ const doValidate = async (req, res) => {
       return res.status(400).json({ message: "El Rut no es valido." });
     }
 
-    let loginValue = await Service.validarUsuario(inputRut, inputPass, res);
+    let loginValue = Service.validarUsuario(inputRut, inputPass, res);
     //Check if user actually exists
     if (loginValue == null) {
       res.status(401).json({
@@ -24,14 +24,14 @@ const doValidate = async (req, res) => {
       loginValue = loginValue[0];
     }
     //Get accessToken from jwt
-    let accessToken = generateToken(loginValue, res);
+    //let accessToken = generateToken(loginValue, res);
 
     res.status(200);
     res.json({
       message: `Ingreso autorizado: ${loginValue.nombreUsuario}`,
       accessCode: loginValue.codigo,
     });
-    res.end();
+
     return res;
   } catch (error) {
     console.log(error);
