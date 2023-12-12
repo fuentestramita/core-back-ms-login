@@ -59,6 +59,5 @@ jobs:
           app-name: 'core-back-ms'
           slot-name: 'Production'
           package: .
-          expose: "8080"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_85DDE36F3F094ED080416E1C2B3A4010 }}
           
