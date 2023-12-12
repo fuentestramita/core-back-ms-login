@@ -1,7 +1,7 @@
 const connectionString =
   "server=CHRIS\\SQLEXPRESS;Database=tramita-db;UID=CHRIS\\Chris;PWD=;Trusted_Connection=Yes;Driver={ODBC Driver 17 for SQL Server}";
 
-const dbLogin = async (idLogin, passLogin) => {
+const dbLogin = (idLogin, passLogin) => {
   return [
     {
       UsuarioID: 1,

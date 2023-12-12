@@ -1,11 +1,11 @@
 const { log } = require("console");
 const db = require("../database/db.js");
 
-const validarUsuario = async (inputRut, inputPass) => {
+const validarUsuario = (inputRut, inputPass) => {
   try {
     //add if() to find the user, if found, save the rut and validate password
 
-    let foundUser = await db.dbLogin(inputRut, inputPass);
+    let foundUser = db.dbLogin(inputRut, inputPass);
     //return Values (UsuarioID, NombreUsuario, EMailUsuario, AccessToken)
     if (foundUser == null) {
       return null;
