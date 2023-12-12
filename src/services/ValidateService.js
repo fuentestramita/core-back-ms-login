@@ -1,19 +1,19 @@
 const { log } = require("console");
 const db = require("../database/db.js");
 
-const validarUsuario = (inputRut, inputPass) => {
+const validarUsuario = async (inputRut, inputPass) => {
   try {
     //add if() to find the user, if found, save the rut and validate password
-
-    let foundUser = db.dbLogin(inputRut, inputPass);
+    console.log("llegamos al service");
+    let foundUser = await db.dbLogin(inputRut, inputPass);
     //return Values (UsuarioID, NombreUsuario, EMailUsuario, AccessToken)
     if (foundUser == null) {
       return null;
     }
-
+    console.log("Despues de llamar a la bdd");
     let user = foundUser[0];
     let code = require("crypto").randomInt(100000, 999999);
-    //await db.dbSetCodigo(user.UsuarioID, code);
+    await db.dbSetCodigo(user.UsuarioID, code);
     //send email to foundUser.EmailUsuario with code
     let respuesta = {
       status: "VALIDO",
