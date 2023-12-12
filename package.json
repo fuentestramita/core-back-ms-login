@@ -11,11 +11,11 @@
   },
   "name": "tramita-app",
   "version": "1.0.0",
-  "main": "./src/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "node index.js",
     "test": "echo \"No test specified\"",
-    "dev": "nodemon ./src/index.js"
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "Christopher Granger <chris_ciber.2000@hotmail.cl>",
