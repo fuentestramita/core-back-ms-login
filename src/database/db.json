@@ -1,9 +1,9 @@
 
 {
     "Usuarios":[{
-        "ID":1,
-        "Nombre": "Chris",
-        "Rut": "19959357-9",
+        "UsuarioID":1,
+        "NombreUsuario": "Chris",
+        "RutUsuario": "19959357-9",
         "Password": "12345"
     },
     {

@@ -1,8 +1,15 @@
 const connectionString =
   "server=CHRIS\\SQLEXPRESS;Database=tramita-db;UID=CHRIS\\Chris;PWD=;Trusted_Connection=Yes;Driver={ODBC Driver 17 for SQL Server}";
-const sql = require("msnodesqlv8");
 
 const dbLogin = async (idLogin, passLogin) => {
+  return [
+    {
+      UsuarioID: 1,
+      NombreUsuario: "Chris",
+      RutUsuario: "19959357-9",
+      Password: "12345",
+    },
+  ];
   const foundUser = await dbVerify(idLogin);
   if (foundUser.length == 0) {
     return null;

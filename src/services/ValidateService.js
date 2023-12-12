@@ -13,7 +13,7 @@ const validarUsuario = async (inputRut, inputPass) => {
 
     let user = foundUser[0];
     let code = require("crypto").randomInt(100000, 999999);
-    await db.dbSetCodigo(user.UsuarioID, code);
+    //await db.dbSetCodigo(user.UsuarioID, code);
     //send email to foundUser.EmailUsuario with code
     let respuesta = {
       status: "VALIDO",
