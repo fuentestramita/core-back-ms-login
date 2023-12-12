@@ -27,7 +27,7 @@ const doValidate = async (req, res) => {
 
     console.log("llegamos a generar token");
     //Get accessToken from jwt
-    //let accessToken = generateToken(loginValue, res);
+    let accessToken = generateToken(loginValue, res);
 
     res.status(200);
     res.json({
