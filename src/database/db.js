@@ -1,34 +1,30 @@
-const connectionString =
-  "server=CHRIS\\SQLEXPRESS;Database=tramita-db;UID=CHRIS\\Chris;PWD=;Trusted_Connection=Yes;Driver={ODBC Driver 17 for SQL Server}";
+require("dotenv").config();
+const sql = require("msnodesqlv8");
+const DB_USER = process.env.DB_USER;
+const DB_PASS = process.env.DB_PASS;
+const DB_HOST = process.env.DB_HOST;
+const DB_NAME = process.env.DB_NAME;
+const connectionString = `server=${DB_HOST};Database=${DB_NAME};UID=${DB_USER};PWD=${DB_PASS};Trusted_Connection=Yes;Driver={ODBC Driver 17 for SQL Server}`;
 
 const dbLogin = async (idLogin, passLogin) => {
-  return [
-    {
-      UsuarioID: 1,
-      NombreUsuario: "Chris",
-      RutUsuario: "19959357-9",
-      Password: "12345",
-    },
-  ];
-
-  // const foundUser = await dbVerify(idLogin);
-  // if (foundUser.length == 0) {
-  //   return null;
-  // }
-  // return new Promise((resolve, reject) => {
-  //   try {
-  //     sql.query(
-  //       connectionString,
-  //       `exec SEL_Login '${idLogin}', '${passLogin}'`,
-  //       (err, rows) => {
-  //         if (err != null) console.log(err);
-  //         resolve(rows);
-  //       }
-  //     );
-  //   } catch (error) {
-  //     return reject(error);
-  //   }
-  // });
+  const foundUser = await dbVerify(idLogin);
+  if (foundUser.length == 0) {
+    return null;
+  }
+  return new Promise((resolve, reject) => {
+    try {
+      sql.query(
+        connectionString,
+        `exec SEL_Login '${idLogin}', '${passLogin}'`,
+        (err, rows) => {
+          if (err != null) console.log(err);
+          resolve(rows);
+        }
+      );
+    } catch (error) {
+      return reject(error);
+    }
+  });
 };
 
 const dbVerify = async (idLogin) => {
