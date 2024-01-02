@@ -7,7 +7,10 @@ const validarUsuario = async (inputRut, inputPass) => {
     console.log("llegamos al service");
     let foundUser = await db.dbLogin(inputRut, inputPass);
     //return Values (UsuarioID, NombreUsuario, EMailUsuario, AccessToken)
-    if (foundUser == null) {
+    if (foundUser.error != null && foundUser.error != "") {
+      return foundUser;
+    }
+    if (foundUser == null || foundUser.length == 0) {
       return null;
     }
     console.log("Despues de llamar a la bdd");

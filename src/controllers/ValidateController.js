@@ -15,9 +15,17 @@ const doValidate = async (req, res) => {
 
     let loginValue = await Service.validarUsuario(inputRut, inputPass, res);
     //Check if user actually exists
+    //validation
+
     if (loginValue == null) {
       res.status(401).json({
         message: `No existen usuarios registrados con el rut ${inputRut}`,
+      });
+
+      return res;
+    } else if (loginValue.error != null && loginValue.error != "") {
+      res.status(500).json({
+        error: `${loginValue.error}`,
       });
 
       return res;

@@ -1,4 +1,5 @@
 require("dotenv").config();
+const { dir } = require("console");
 const sql = require("mssql");
 const DB_USER = process.env.DB_USER;
 const DB_PASS = process.env.DB_PASS;
@@ -27,8 +28,12 @@ let poolRequest;
 // returns a promise which resolves to the current connection pool
 function getConnection() {
   if (!poolRequest) {
-    const pool = new sql.ConnectionPool(sqlConfig);
-    poolRequest = pool.connect();
+    try {
+      const pool = new sql.ConnectionPool(sqlConfig);
+      poolRequest = pool.connect();
+    } catch (err) {
+      return { error: err };
+    }
   }
   return poolRequest;
 }
@@ -36,16 +41,22 @@ function getConnection() {
 const dbLogin = async (idLogin, passLogin) => {
   const foundUser = await dbVerify(idLogin);
   if (foundUser.length == 0) {
-    return null;
+    return { error: "No hay usuarios con el rut " + idLogin };
   }
   try {
     let pool = await getConnection();
     let result1 = await pool
       .request()
       .query(`exec SEL_Login '${idLogin}', '${passLogin}'`);
-    return result1.recordset;
+    if (result1.recordset.length == 0) {
+      return {
+        error: "La contraseña para el rut " + idLogin + " es incorrecta",
+      };
+    } else {
+      return result1.recordset;
+    }
   } catch (err) {
-    throw err;
+    return { error: err };
   }
 };
 
@@ -57,7 +68,7 @@ const dbVerify = async (idLogin) => {
       .query(`Select * from dbo.Usuarios where RUTUsuario='${idLogin}'`);
     return result1.recordset;
   } catch (err) {
-    throw err;
+    return { error: err };
   }
 };
 
@@ -70,7 +81,7 @@ const dbSetCodigo = async (id, codigo) => {
 
     return result1.recordset;
   } catch (err) {
-    throw err;
+    return { error: err };
   }
 };
 const dbGetCodigo = async (id, codigo) => {
@@ -81,7 +92,7 @@ const dbGetCodigo = async (id, codigo) => {
       .query(`exec SEL_ValidaCodigoUsuario '${id}', '${codigo}'`);
     return result1.recordset;
   } catch (err) {
-    throw err;
+    return { error: err };
   }
 };
 module.exports = { dbLogin: dbLogin, dbSetCodigo, dbGetCodigo };
