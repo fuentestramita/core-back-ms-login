@@ -6,7 +6,7 @@ const DB_PASS = process.env.DB_PASS;
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = process.env.DB_NAME;
 const sqlConfig = {
-  userName: `${DB_USER}`,
+  user: `${DB_USER}`,
   password: `${DB_PASS}`,
   database: `${DB_NAME}`,
   server: `${DB_HOST}`,
