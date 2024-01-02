@@ -16,9 +16,9 @@ const sqlConfig = {
     idleTimeoutMillis: 30000,
   },
   options: {
-    encrypt: `process.env.DB_ENCTYPE`, //for azure
-    trustServerCertificate: `process.env.DB_TRUSTEDCERTIFICATE`, // change to true for local dev / self-signed certs
-    truestedConnection: `process.env.DB_TRUSTEDCONNECTION`
+    encrypt: true, //for azure
+    trustServerCertificate: true, // change to true for local dev / self-signed certs
+    truestedConnection: true
   },
 };
 
