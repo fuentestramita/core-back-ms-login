@@ -15,16 +15,10 @@ const sqlConfig = {
     min: 0,
     idleTimeoutMillis: 30000,
   },
-  authentication: {
-    type: "default",
-  },
   options: {
     encrypt: true, //for azure
-    TrustServerCertificate: false, // change to true for local dev / self-signed certs
-    truestedConnection: false,
-    enableArithAbort: true,
-    integratedSecurity: true,
-    Authentication="Active Directory Default"
+    trustServerCertificate: false, // change to true for local dev / self-signed certs
+    truestedConnection: false
   },
 };
 
