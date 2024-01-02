@@ -1,4 +1,3 @@
-const { log } = require("console");
 const db = require("../database/db.js");
 
 const validarUsuario = async (inputRut, inputPass) => {
@@ -21,6 +20,7 @@ const validarUsuario = async (inputRut, inputPass) => {
     let respuesta = {
       status: "VALIDO",
       nombreUsuario: `${user.NombreUsuario}`,
+      usuarioID: `${user.UsuarioID}`,
       statuscode: 200,
       codigo: code,
     };

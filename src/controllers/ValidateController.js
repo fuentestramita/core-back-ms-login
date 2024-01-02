@@ -36,10 +36,10 @@ const doValidate = async (req, res) => {
     console.log("llegamos a generar token");
     //Get accessToken from jwt
     let accessToken = generateToken(loginValue, res);
-
     res.status(200);
     res.json({
       message: `Ingreso autorizado: ${loginValue.nombreUsuario}`,
+      usuarioID: `${loginValue.usuarioID}`,
       accessCode: loginValue.codigo,
     });
 
