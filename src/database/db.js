@@ -15,9 +15,6 @@ const sqlConfig = {
     min: 0,
     idleTimeoutMillis: 30000,
   },
-  authentication: {
-    type: "default",
-  },
   options: {
     encrypt: true, //for azure
     trustServerCertificate: true,
