@@ -1,7 +1,7 @@
 const express = require("express");
 const Router = require("./src/routes/Routes");
 const app = express();
-const port = process.env.port || 3000;
+const port = process.env.port || 8080;
 require("dotenv").config();
 
 app.listen(port, () => {
@@ -13,7 +13,7 @@ app.listen(port, () => {
     app.use("/", (req, res) => {
       res.send({
         status: "404",
-        data: `<h1>Something went wrong! please use <a href="/api/validate">/api/validate</a></h1>`,
+        data: `<h1>Something went wrong! please use <a href="/api">/api</a></h1>`,
       });
     });
   } catch (error) {

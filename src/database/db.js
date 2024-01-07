@@ -113,4 +113,9 @@ const getMenu = async (UsuarioID, PerfilID) => {
   }
 };
 
-module.exports = { dbLogin, dbSetCodigo, dbGetCodigo, getMenu };
+module.exports = {
+  dbLogin: dbLogin,
+  dbSetCodigo,
+  dbGetCodigo,
+  getMenu: getMenu,
+};
