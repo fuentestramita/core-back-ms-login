@@ -1,7 +1,7 @@
 const express = require("express");
 const Router = require("./src/routes/Routes");
 const app = express();
-const port = process.env.port || 8080;
+const port = process.env.port || 3000;
 require("dotenv").config();
 
 app.listen(port, () => {

@@ -94,4 +94,23 @@ const dbGetCodigo = async (id, codigo) => {
     return { error: err };
   }
 };
-module.exports = { dbLogin: dbLogin, dbSetCodigo, dbGetCodigo };
+
+const getMenu = async (UsuarioID, PerfilID) => {
+  try {
+    let pool = await getConnection();
+    let result1 = await pool
+      .request()
+      .query(`exec SEL_MenuUsuario '${UsuarioID}', '${PerfilID}'`);
+    if (result1.recordset.length == 0) {
+      return {
+        error: "No se encontraron resultados.",
+      };
+    } else {
+      return result1.recordset;
+    }
+  } catch (err) {
+    return { error: err };
+  }
+};
+
+module.exports = { dbLogin, dbSetCodigo, dbGetCodigo, getMenu };
