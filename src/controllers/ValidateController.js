@@ -1,6 +1,5 @@
 const Service = require("../services/ValidateService");
 const { validateRut } = require("@fdograph/rut-utilities");
-const jwt = require("jsonwebtoken");
 
 const doValidate = async (req, res) => {
   try {
@@ -33,49 +32,18 @@ const doValidate = async (req, res) => {
       loginValue = loginValue[0];
     }
 
-    console.log("llegamos a generar token");
-    //Get accessToken from jwt
-    let accessToken = generateToken(loginValue, res);
     res.status(200);
     res.json({
+      code: loginValue.statuscode,
+      status: loginValue.status,
       message: `Ingreso autorizado: ${loginValue.nombreUsuario}`,
-      usuarioID: `${loginValue.usuarioID}`,
+      rut: loginValue.rut,
       accessCode: loginValue.codigo,
     });
 
     return res;
   } catch (error) {
     console.log(error);
-  }
-};
-
-const generateToken = (foundUser, res) => {
-  const access_key = process.env.ACCESS_KEY;
-  const refresh_key = process.env.REFRESH_KEY;
-
-  if (foundUser != null && typeof foundUser != "undefined") {
-    //Handle JWT (UsuarioID, RUTUsuario)
-    const accessToken = jwt.sign(
-      {
-        data: {
-          idUsuario: foundUser.NombreUsuario,
-          EMailUsuario: foundUser.EMailUsuario,
-        },
-      },
-      access_key,
-      { expiresIn: "10s" }
-    );
-    const refreshToken = jwt.sign(
-      { idUsuario: foundUser.Nombre, rutUsuario: foundUser.Rut },
-      refresh_key,
-      { expiresIn: "7d" }
-    );
-    //Save refresh token to database for current user
-    res.cookie("jwt", refreshToken, {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-    return accessToken;
   }
 };
 

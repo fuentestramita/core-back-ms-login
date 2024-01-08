@@ -20,7 +20,9 @@ const validarUsuario = async (inputRut, inputPass) => {
     let respuesta = {
       status: "VALIDO",
       nombreUsuario: `${user.NombreUsuario}`,
+      rutUsuario: `${user.rut}`,
       usuarioID: `${user.UsuarioID}`,
+      perfilID: `${user.PerfilID}`,
       statuscode: 200,
       codigo: code,
     };

@@ -1,4 +1,5 @@
 const Service = require("../services/LoginService");
+const jwt = require("jsonwebtoken");
 
 async function doLogin(req, res) {
   try {
@@ -16,15 +17,24 @@ async function doLogin(req, res) {
     }
     const respuesta = await Service.loginUsuario(usuarioID, codigo);
     if (respuesta == null) {
-      res.status(300);
+      res.status(400);
       res.json({ message: "El Codigo ingresado es incorrecto" });
+      return res;
     }
+
+    console.log("llegamos a generar token");
+    //Get accessToken from jwt
+    let accessToken = generateToken(respuesta, res);
+
     //Send response
-    res.status(respuesta.statuscode);
+    res.status(respuesta.statusCode);
     res.json({
+      code: `${respuesta.statusCode}`,
       status: `${respuesta.status}`,
       nombre: `${respuesta.nombreUsuario}`,
-      PerfilID: respuesta.perfilID, //temporal
+      email: `${respuesta.email}`,
+      rut: `${respuesta.rutUsuario}`,
+      token: accessToken,
     });
     res.end();
     return res;
@@ -32,5 +42,37 @@ async function doLogin(req, res) {
     console.log(error);
   }
 }
+
+const generateToken = (foundUser, res) => {
+  const access_key = process.env.ACCESS_KEY;
+  const refresh_key = process.env.REFRESH_KEY;
+
+  if (foundUser != null && typeof foundUser != "undefined") {
+    //Handle JWT (UsuarioID, RUTUsuario)
+    const accessToken = jwt.sign(
+      {
+        data: {
+          idUsuario: foundUser.usuarioID,
+          idPerfil: foundUser.perfilID,
+          EMailUsuario: foundUser.email,
+          rutUsuario: foundUser.rutUsuario,
+        },
+      },
+      access_key,
+      { expiresIn: "10s" }
+    );
+    const refreshToken = jwt.sign(
+      { idUsuario: foundUser.Nombre, rutUsuario: foundUser.Rut },
+      refresh_key,
+      { expiresIn: "7d" }
+    );
+    //Save refresh token to database for current user
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    return accessToken;
+  }
+};
 
 module.exports = { doLogin };

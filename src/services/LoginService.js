@@ -6,14 +6,16 @@ const loginUsuario = async (UsuarioID, code) => {
     if (validated.length == 0) {
       return null;
     }
+
     let respuesta = {
       nombreUsuario: validated[0].NombreUsuario,
       perfilID: validated[0].PerfilID,
+      usuarioID: validated[0].UsuarioID,
+      rutUsuario: validated[0].RUTUsuario,
+      email: validated[0].EMailUsuario,
       status: "VALIDO",
-      statuscode: 200,
+      statusCode: 200,
     };
-    console.log("service");
-    console.log(respuesta);
     return respuesta;
   } catch (error) {}
 };
