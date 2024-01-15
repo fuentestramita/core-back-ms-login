@@ -1,5 +1,18 @@
 const Service = require("../services/ValidateService");
 const { validateRut } = require("@fdograph/rut-utilities");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  // host: "direccion smtp",
+  // port: 465,
+  // secure: true,
+
+  service: "gmail",
+  auth: {
+    user: "ciber098@gmail.com",
+    pass: "rtfs fnbo yhzu zjhn",
+  },
+});
 
 const doValidate = async (req, res) => {
   try {
@@ -31,6 +44,8 @@ const doValidate = async (req, res) => {
     } else if (loginValue.length > 0) {
       loginValue = loginValue[0];
     }
+    //send Mail
+    sendMail(loginValue.usuarioEmail, loginValue.codigo);
 
     res.status(200);
     res.json({
@@ -38,13 +53,31 @@ const doValidate = async (req, res) => {
       status: loginValue.status,
       message: `Ingreso autorizado: ${loginValue.nombreUsuario}`,
       rut: loginValue.rut,
-      accessCode: loginValue.codigo,
     });
 
     return res;
   } catch (error) {
     console.log(error);
   }
+};
+
+const sendMail = (mail, codigo) => {
+  const mailOptions = {
+    from: "ciber098@gmail.com",
+    to: `${mail}`,
+    subject: "Codigo de verificacion",
+    text: `Su código de verificación es : ${codigo}
+    
+    El código solo es válido durante 30 segundos.`,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
 };
 
 module.exports = { doValidate };
