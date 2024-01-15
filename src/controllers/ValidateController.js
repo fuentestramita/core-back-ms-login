@@ -75,7 +75,6 @@ const sendMail = (mail, codigo) => {
     if (error) {
       console.log(error);
     } else {
-      console.log("Email sent: " + info.response);
     }
   });
 };
