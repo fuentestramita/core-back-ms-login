@@ -68,14 +68,19 @@ const sendMail = (mail, codigo) => {
     from: `${process.env.MAIL_SENDER}`,
     to: `${mail}`,
     subject: "Codigo de verificacion",
-    text: `Su código de verificación es : ${codigo}
+    text: `Este es su código para ingresar a tramita
+
+    ${codigo}
     
-    El código solo es válido durante 30 segundos.`,
+    
+    Atte.
+    
+    Tramita S.P.A.`,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log(error);
+      console.log(error + " info:" + info);
     } else {
     }
   });
