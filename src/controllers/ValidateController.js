@@ -3,13 +3,16 @@ const { validateRut } = require("@fdograph/rut-utilities");
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  host: "smtp-mail.outlook.com", // direccion smtp
-  port: 587, //587 | 465
-  secure: false,
+  host: `${process.env.MAIL_HOST}`, // direccion smtp
+  port: `${process.env.MAIL_PORT}`, //587 | 465
+  secure: `${process.env.MAIL_SECURE}`, //true | false
   service: `${process.env.MAIL_SERVICE}`,
   auth: {
     user: `${process.env.MAIL_SENDER}`,
     pass: `${process.env.MAIL_PASS}`,
+  },
+  tls: {
+    ciphers: "SSLv3",
   },
 });
 
