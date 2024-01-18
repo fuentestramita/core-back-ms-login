@@ -3,14 +3,13 @@ const { validateRut } = require("@fdograph/rut-utilities");
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  // host: "direccion smtp",
-  // port: 465,
-  // secure: true,
-
-  service: "gmail",
+  host: "smtp-mail.outlook.com", // direccion smtp
+  port: 587, //587 | 465
+  secure: false,
+  service: `${process.env.MAIL_SERVICE}`,
   auth: {
-    user: "ciber098@gmail.com",
-    pass: "rtfs fnbo yhzu zjhn",
+    user: `${process.env.MAIL_SENDER}`,
+    pass: `${process.env.MAIL_PASS}`,
   },
 });
 
@@ -63,7 +62,7 @@ const doValidate = async (req, res) => {
 
 const sendMail = (mail, codigo) => {
   const mailOptions = {
-    from: "ciber098@gmail.com",
+    from: `${process.env.MAIL_SENDER}`,
     to: `${mail}`,
     subject: "Codigo de verificacion",
     text: `Su código de verificación es : ${codigo}
