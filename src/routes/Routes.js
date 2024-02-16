@@ -9,6 +9,6 @@ const verifyToken = require("../middleware/tokenValidation");
 router.post("/validate", ValidateController.doValidate);
 router.post("/login", LoginController.doLogin);
 router.post("/menu", verifyToken, MenuController.doMenu);
-router.post("/inscripcion", verifyToken, ppuController.doPPU);
+router.post("/primeraInscripcion", verifyToken, ppuController.doPPU);
 
 module.exports = router;
