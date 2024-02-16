@@ -5,6 +5,9 @@ const DB_USER = process.env.DB_USER;
 const DB_PASS = process.env.DB_PASS;
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = process.env.DB_NAME;
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+
 const sqlConfig = {
   user: `${DB_USER}`,
   password: `${DB_PASS}`,
@@ -89,7 +92,7 @@ const dbGetCodigo = async (id, codigo) => {
     let result1 = await pool
       .request()
       .query(`exec SEL_ValidaCodigoUsuario '${id}', '${codigo}'`);
-
+    console.dir("db:" + result1);
     return result1.recordset;
   } catch (err) {
     return { error: err };
@@ -99,6 +102,7 @@ const dbGetCodigo = async (id, codigo) => {
 const getMenu = async (UsuarioID, PerfilID) => {
   try {
     let pool = await getConnection();
+    console.dir(`exec SEL_MenuUsuario '${UsuarioID}', '${PerfilID}'`);
     let result1 = await pool
       .request()
       .query(`exec SEL_MenuUsuario '${UsuarioID}', '${PerfilID}'`);
@@ -114,9 +118,62 @@ const getMenu = async (UsuarioID, PerfilID) => {
   }
 };
 
+const getPPU = async (PPU, numFactura, RUTDocumento) => {
+  try {
+    let pool = await getConnection();
+    let result1 = await pool
+      .request()
+      .query(
+        `exec SEL_PrimeraInscripcion '${PPU}', '${numFactura}', '${RUTDocumento}'`
+      );
+    if (result1.recordset.length == 0) {
+      return {
+        error: "No se encontraron resultados.",
+      };
+    } else {
+      return result1.recordset;
+    }
+  } catch (err) {
+    return { error: err };
+  }
+};
+
+const dbGetUser = async (id) => {
+  try {
+    let pool = await getConnection();
+    let result1 = await pool.request().query(`exec SEL_Usuario '${id}'`);
+    return result1.recordset;
+  } catch (err) {
+    return { error: err };
+  }
+};
+
+const passHash = async (password) => {
+  bcrypt
+    .hash(password, saltRounds) //recibe password y un int de rondas para generar el salt, la base para el hash
+    .then((hash) => {
+      console.log("Hash ", hash); //genera un hash usando el salt y la contraseña
+      //Save hash to DB for x user
+      validateUser(password, hash); //comprobar que el hash se hizo correctamente
+    })
+    .catch((err) => console.error(err.message));
+};
+
+function validateUser(password, hash) {
+  //reemplazar la validacion de contraseña del dbValidate con esta función
+  bcrypt
+    .compare(password, hash)
+    .then((res) => {
+      console.log(res); // return true
+    })
+    .catch((err) => console.error(err.message));
+}
+
 module.exports = {
   dbLogin: dbLogin,
   dbSetCodigo,
   dbGetCodigo,
   getMenu: getMenu,
+  getPPU: getPPU,
+  dbGetUser,
 };

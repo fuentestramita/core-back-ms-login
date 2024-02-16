@@ -1,3 +1,4 @@
+const { access } = require("fs");
 const Service = require("../services/LoginService");
 const jwt = require("jsonwebtoken");
 
@@ -5,7 +6,7 @@ async function doLogin(req, res) {
   try {
     const { usuarioID, codigo } = req.body;
     console.log(`ID: ${usuarioID} | codigo ${codigo}`);
-    if (codigo == null || codigo < 100000 || codigo > 999999) {
+    if (codigo == null || codigo < 100000000000 || codigo > 999999999999) {
       return res
         .status(400)
         .json({ message: "El código ingresado no es valido." });
@@ -59,17 +60,21 @@ const generateToken = (foundUser, res) => {
         },
       },
       access_key,
-      { expiresIn: "10s" }
+      { expiresIn: "1d" } // token expiration
     );
+    res.cookie("accessJWT", accessToken, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // cookie expiration
+    });
     const refreshToken = jwt.sign(
-      { idUsuario: foundUser.Nombre, rutUsuario: foundUser.Rut },
+      { idUsuario: foundUser.usuarioID, rutUsuario: foundUser.rutUsuario },
       refresh_key,
       { expiresIn: "7d" }
     );
     //Save refresh token to database for current user
-    res.cookie("jwt", refreshToken, {
+    res.cookie("refreshJWT", refreshToken, {
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return accessToken;
   }

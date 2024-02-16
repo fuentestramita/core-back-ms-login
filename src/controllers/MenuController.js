@@ -1,7 +1,7 @@
 const Service = require("../services/MenuService.js");
 
 const doMenu = async (req, res) => {
-  console.log("running controller");
+  console.log("running menu controller");
   const { UsuarioID, PerfilID } = req.body;
   let menuValue = await Service.doMenu(UsuarioID, PerfilID);
   //Check if user actually exists
@@ -12,9 +12,9 @@ const doMenu = async (req, res) => {
 
     return res;
   }
+
   res.status(200);
   res.json(menuValue);
-
   return res;
 };
 

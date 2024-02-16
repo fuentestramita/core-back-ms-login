@@ -4,6 +4,7 @@ const loginUsuario = async (UsuarioID, code) => {
   try {
     let validated = await db.dbGetCodigo(UsuarioID, code);
     if (validated.length == 0) {
+      console.dir("service:" + validated);
       return null;
     }
 

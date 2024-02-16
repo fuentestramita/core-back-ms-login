@@ -2,7 +2,7 @@ const DB = require("../database/db");
 
 const doMenu = async (UsuarioID, PerfilID) => {
   try {
-    console.log("running service");
+    console.log("running menu service");
     let dbResponse = await DB.getMenu(UsuarioID, PerfilID);
     let MenuList;
     if (dbResponse.length == 0) {
@@ -15,7 +15,7 @@ const doMenu = async (UsuarioID, PerfilID) => {
     // } else {
     //   MenuList = dbResponse;
     // }
-    console.dir(MenuList);
+
     return MenuList;
   } catch (error) {
     console.log(error);
