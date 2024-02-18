@@ -1,9 +1,9 @@
 const DB = require("../database/db");
 
-const doMenu = async (UsuarioID, PerfilID) => {
+const doMenu = async (UsuarioID) => {
   try {
     console.log("running menu service");
-    let dbResponse = await DB.getMenu(UsuarioID, PerfilID);
+    let dbResponse = await DB.getMenu(UsuarioID);
     let MenuList;
     if (dbResponse.length == 0) {
       return null;

@@ -2,7 +2,7 @@ const DB = require("../database/db");
 
 const doPPU = async (PPU, numFactura, RUTDocumento) => {
   try {
-    console.log("running menu service");
+    console.log("running ppu service");
     let dbResponse = await DB.getPPU(PPU, numFactura, RUTDocumento);
     if (dbResponse.length == 0) {
       return null;

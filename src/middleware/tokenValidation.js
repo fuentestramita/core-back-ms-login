@@ -8,24 +8,25 @@ const validateToken = (req, res, next) => {
   const cookies = req.cookies;
   const accessT = cookies.accessJWT;
   const refreshT = cookies.refreshJWT;
-  if (!accessT) return res.status(401).json("Unauthorized user"); //Si hay header pero no hay token, return no autorizado
+  if (!accessT) {
+    jwt.verify(refreshT, process.env.REFRESH_KEY, (err, decoded) => {
+      if (err) {
+        console.log("Refresh token invalido. Iniciar sesion denuevo");
+        return res.status(401).json({ message: "Inicie sesión nuevamente." }); //res.status.json manda res con status y mensaje
+      }
+      if (decoded) {
+        refreshAccessToken(refreshT, res, next);
+      }
+    });
+  }
   jwt.verify(accessT, process.env.ACCESS_KEY, (err, decoded) => {
     if (err) {
       exp = err.expiredAt;
       console.log(Date.now() >= exp * 1000); //false = expired || true = valid
       if (!(Date.now() >= exp * 1000)) {
         console.log("validando");
-        jwt.verify(refreshT, process.env.REFRESH_KEY, (err, decoded) => {
-          if (err) {
-            console.log("Refresh token invalido. Iniciar sesion denuevo");
-            return res
-              .status(401)
-              .json({ message: "Inicie sesión nuevamente." }); //res.status.json manda res con status y mensaje
-          }
-          if (decoded) {
-            refreshAccessToken(refreshT, res, next);
-          }
-        });
+        jwt.decode(refreshT);
+
         //check if refresh token is valid
         //if valid,
         //run refresh to create new token

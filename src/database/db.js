@@ -99,13 +99,12 @@ const dbGetCodigo = async (id, codigo) => {
   }
 };
 
-const getMenu = async (UsuarioID, PerfilID) => {
+const getMenu = async (UsuarioID) => {
   try {
     let pool = await getConnection();
-    console.dir(`exec SEL_MenuUsuario '${UsuarioID}', '${PerfilID}'`);
     let result1 = await pool
       .request()
-      .query(`exec SEL_MenuUsuario '${UsuarioID}', '${PerfilID}'`);
+      .query(`exec SEL_MenuUsuario '${UsuarioID}'`);
     if (result1.recordset.length == 0) {
       return {
         error: "No se encontraron resultados.",

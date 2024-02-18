@@ -60,7 +60,7 @@ const generateToken = (foundUser, res) => {
         },
       },
       access_key,
-      { expiresIn: "1d" } // token expiration
+      { expiresIn: "86400000" } // token expiration
     );
     res.cookie("accessJWT", accessToken, {
       httpOnly: true,
@@ -69,7 +69,7 @@ const generateToken = (foundUser, res) => {
     const refreshToken = jwt.sign(
       { idUsuario: foundUser.usuarioID, rutUsuario: foundUser.rutUsuario },
       refresh_key,
-      { expiresIn: "7d" }
+      { expiresIn: "604800000" }
     );
     //Save refresh token to database for current user
     res.cookie("refreshJWT", refreshToken, {
