@@ -1,4 +1,4 @@
-const Service = require("../services/ppuService.js");
+const Service = require("../services/PpuService.js");
 
 const doPPU = async (req, res) => {
   console.log("running ppu controller");

@@ -117,6 +117,38 @@ const getMenu = async (UsuarioID) => {
   }
 };
 
+const getForm = async (nombreCampo, campoID, inputCampo) => {
+  try {
+    let pool = await getConnection();
+    let result1;
+    console.dir(
+      `db:
+      nombreCampo: ${nombreCampo} IDcampo: ${campoID} inputCampo: ${inputCampo}`
+    );
+    if (campoID) {
+      console.log("run A(con IDCampo)");
+      result1 = await pool
+        .request()
+        .query(`exec SEL_${nombreCampo} '${campoID}', '${inputCampo}'`);
+    } else {
+      console.log("run B(sin IDCampo)");
+      result1 = await pool
+        .request()
+        .query(`exec SEL_${nombreCampo} '${inputCampo}'`);
+    }
+    console.dir("resultado: " + result1);
+    if (result1.recordset.length == 0) {
+      return {
+        error: "No se encontraron resultados.",
+      };
+    } else {
+      return result1.recordset;
+    }
+  } catch (err) {
+    return { error: err };
+  }
+};
+
 const getPPU = async (PPU, numFactura, RUTDocumento) => {
   try {
     let pool = await getConnection();
@@ -172,6 +204,7 @@ module.exports = {
   dbLogin: dbLogin,
   dbSetCodigo,
   dbGetCodigo,
+  getForm: getForm,
   getMenu: getMenu,
   getPPU: getPPU,
   dbGetUser,
