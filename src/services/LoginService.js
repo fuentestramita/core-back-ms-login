@@ -1,8 +1,8 @@
 const db = require("../database/db.js");
 
-const loginUsuario = async (UsuarioID, code) => {
+const loginUsuario = async (rutUsuario, code) => {
   try {
-    let validated = await db.dbGetCodigo(UsuarioID, code);
+    let validated = await db.dbGetCodigo(rutUsuario, code);
     if (validated.length == 0) {
       console.dir("service:" + validated);
       return null;

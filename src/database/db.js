@@ -86,12 +86,13 @@ const dbSetCodigo = async (id, codigo) => {
     return { error: err };
   }
 };
-const dbGetCodigo = async (id, codigo) => {
+const dbGetCodigo = async (rut, codigo) => {
   try {
     let pool = await getConnection();
+    console.dir(`exec SEL_ValidaCodigoUsuario '${rut}', '${codigo}'`);
     let result1 = await pool
       .request()
-      .query(`exec SEL_ValidaCodigoUsuario '${id}', '${codigo}'`);
+      .query(`exec SEL_ValidaCodigoUsuario '${rut}', '${codigo}'`);
     console.dir("db:" + result1);
     return result1.recordset;
   } catch (err) {
@@ -127,16 +128,18 @@ const getForm = async (nombreCampo, campoID, inputCampo) => {
     );
     if (campoID) {
       console.log("run A(con IDCampo)");
+      console.dir(`exec SEL_${nombreCampo} '${campoID}', '${inputCampo}'`);
       result1 = await pool
         .request()
         .query(`exec SEL_${nombreCampo} '${campoID}', '${inputCampo}'`);
     } else {
       console.log("run B(sin IDCampo)");
+      console.dir(`exec SEL_${nombreCampo} '${inputCampo}'`);
       result1 = await pool
         .request()
         .query(`exec SEL_${nombreCampo} '${inputCampo}'`);
     }
-    console.dir("resultado: " + result1);
+    console.dir(result1.recordset);
     if (result1.recordset.length == 0) {
       return {
         error: "No se encontraron resultados.",

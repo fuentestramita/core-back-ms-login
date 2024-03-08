@@ -1,22 +1,26 @@
 const { access } = require("fs");
 const Service = require("../services/LoginService");
+const { validateRut } = require("@fdograph/rut-utilities");
 const jwt = require("jsonwebtoken");
 
 async function doLogin(req, res) {
   try {
-    const { usuarioID, codigo } = req.body;
-    console.log(`ID: ${usuarioID} | codigo ${codigo}`);
+    const { rutUsuario, codigo } = req.body;
+    console.log(`RUT: ${rutUsuario} | codigo ${codigo}`);
+    if (!rutUsuario) {
+      return res
+        .status(400)
+        .json({ message: "El ID de Usuario no es valido." });
+    }
     if (codigo == null || codigo < 100000000000 || codigo > 999999999999) {
       return res
         .status(400)
         .json({ message: "El código ingresado no es valido." });
     }
-    if (usuarioID == 0 || usuarioID == null) {
-      return res
-        .status(400)
-        .json({ message: "El ID de Usuario no es valido." });
+    if (!validateRut(rutUsuario)) {
+      return res.status(400).json({ message: "El Rut no es valido." });
     }
-    const respuesta = await Service.loginUsuario(usuarioID, codigo);
+    const respuesta = await Service.loginUsuario(rutUsuario, codigo);
     if (respuesta == null) {
       res.status(400);
       res.json({ message: "El Codigo ingresado es incorrecto" });
