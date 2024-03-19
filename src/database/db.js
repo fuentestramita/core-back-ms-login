@@ -86,6 +86,7 @@ const dbSetCodigo = async (id, codigo) => {
     return { error: err };
   }
 };
+
 const dbGetCodigo = async (rut, codigo) => {
   try {
     let pool = await getConnection();

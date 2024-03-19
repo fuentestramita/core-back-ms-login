@@ -1,10 +1,14 @@
 const Service = require("../services/MenuService.js");
-
+const jwt = require("jsonwebtoken");
 const doMenu = async (req, res) => {
   console.log("running menu controller");
-  const { UsuarioID } = req.body;
-  if (!UsuarioID)
-    return res.status(400).json({ message: `Es necesario el ID de usuario.` });
+  const cookies = req.cookies;
+  const accessT = cookies.accessJWT;
+  if (!cookies)
+    return res.status(400).json({ message: `No existe la cookie.` });
+  if (!accessT)
+    return res.status(400).json({ message: `Acceso no autorizado.` });
+  const UsuarioID = jwt.decode(accessT).data.idUsuario;
   let menuValue = await Service.doMenu(UsuarioID);
   //Check if user actually exists
   if (menuValue == null) {
