@@ -119,39 +119,49 @@ const getMenu = async (UsuarioID) => {
   }
 };
 
-const getForm = async (nombreCampo, campoID, inputCampo) => {
+const getForm = async () => {
   try {
     let pool = await getConnection();
-    let result1;
-    console.dir(
-      `db:
-      nombreCampo: ${nombreCampo} IDcampo: ${campoID} inputCampo: ${inputCampo}`
-    );
-    if (campoID) {
-      console.log("run A(con IDCampo)");
-      console.dir(`exec SEL_${nombreCampo} '${campoID}', '${inputCampo}'`);
-      result1 = await pool
-        .request()
-        .query(`exec SEL_${nombreCampo} '${campoID}', '${inputCampo}'`);
-    } else {
-      console.log("run B(sin IDCampo)");
-      console.dir(`exec SEL_${nombreCampo} '${inputCampo}'`);
-      result1 = await pool
-        .request()
-        .query(`exec SEL_${nombreCampo} '${inputCampo}'`);
-    }
-    console.dir(result1.recordset);
+    let result1 = await pool.request().query(`exec SEL_ALL`);
+
     if (result1.recordset.length == 0) {
       return {
         error: "No se encontraron resultados.",
       };
     } else {
-      return result1.recordset;
+      return result1.recordsets;
     }
   } catch (err) {
     return { error: err };
   }
 };
+
+// const getForm = async (nombreCampo, campoID, inputCampo) => {
+//   try {
+//     let pool = await getConnection();
+//     let result1;
+
+//     if (campoID) {
+//       result1 = await pool
+//         .request()
+//         .query(`exec SEL_${nombreCampo} '${campoID}', '${inputCampo}'`);
+//     } else {
+//       result1 = await pool
+//         .request()
+//         .query(`exec SEL_${nombreCampo} '${inputCampo}'`);
+//     }
+
+//     if (result1.recordset.length == 0) {
+//       return {
+//         error: "No se encontraron resultados.",
+//       };
+//     } else {
+//       return result1.recordset;
+//     }
+//   } catch (err) {
+//     return { error: err };
+//   }
+// };
 
 const getPPU = async (PPU, numFactura, RUTDocumento) => {
   try {
@@ -165,9 +175,19 @@ const getPPU = async (PPU, numFactura, RUTDocumento) => {
       return {
         error: "No se encontraron resultados.",
       };
-    } else {
-      return result1.recordset;
     }
+    let result2 = await pool.request().query(`exec SEL_ALL`);
+    if (result2.recordset.length == 0) {
+      return {
+        error: "No se encontraron resultados.",
+      };
+    }
+
+    const result = {
+      ppuValues: result1.recordset,
+      formValues: result2.recordsets,
+    };
+    return result;
   } catch (err) {
     return { error: err };
   }
