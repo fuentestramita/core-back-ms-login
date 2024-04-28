@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\controllers",
+    "\\src\\database",
+    "\\src\\middleware",
+    "\\src\\services"
+  ],
+  "SelectedNode": "\\src\\services\\ppuService.js",
+  "PreviewInSolutionExplorer": false
+}

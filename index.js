@@ -1,10 +1,14 @@
 const express = require("express");
 const Router = require("./src/routes/Routes");
 const app = express();
+
 const port = process.env.port || 8080;
 const cookieParser = require("cookie-parser");
+
 require("dotenv").config();
 
+
+module.exports=app;
 app.listen(port, () => {
   try {
     console.log("listening on root");
