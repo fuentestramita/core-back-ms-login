@@ -3,6 +3,6 @@ const ValidateController = require("../controllers/primeraInscripcionController"
 const router = express.Router();
 const verifyToken = require("../middleware/tokenValidation");
 
-router.get("/primeraInscripcion", primeraInscripcionController.getPrimeraInscripcion);
+router.post("/primeraInscripcion", primeraInscripcionController.getPrimeraInscripcion);
 
 module.exports = router;

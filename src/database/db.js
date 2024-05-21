@@ -47,9 +47,7 @@ const dbLogin = async (idLogin, passLogin) => {
   }
   try {
     let pool = await getConnection();
-    let result1 = await pool
-      .request()
-      .query(`exec SEL_Login '${idLogin}', '${passLogin}'`);
+    let result1 = await pool.request().query(`exec SEL_Login '${idLogin}', '${passLogin}'`);
     if (result1.recordset.length == 0) {
       return {
         error: "La contraseña para el rut " + idLogin + " es incorrecta",
@@ -65,9 +63,7 @@ const dbLogin = async (idLogin, passLogin) => {
 const dbVerify = async (idLogin) => {
   try {
     let pool = await getConnection();
-    let result1 = await pool
-      .request()
-      .query(`Select * from dbo.Usuarios where RUTUsuario='${idLogin}'`);
+    let result1 = await pool.request().query(`Select * from dbo.Usuarios where RUTUsuario='${idLogin}'`);
     return result1.recordset;
   } catch (err) {
     return { error: err };
@@ -77,9 +73,7 @@ const dbVerify = async (idLogin) => {
 const dbSetCodigo = async (id, codigo) => {
   try {
     let pool = await getConnection();
-    let result1 = await pool
-      .request()
-      .query(`exec INS_CodigoLogin ${id}, '${codigo}'`);
+    let result1 = await pool.request().query(`exec INS_CodigoLogin ${id}, '${codigo}'`);
 
     return result1.recordset;
   } catch (err) {
@@ -91,9 +85,7 @@ const dbGetCodigo = async (rut, codigo) => {
   try {
     let pool = await getConnection();
     console.dir(`exec SEL_ValidaCodigoUsuario '${rut}', '${codigo}'`);
-    let result1 = await pool
-      .request()
-      .query(`exec SEL_ValidaCodigoUsuario '${rut}', '${codigo}'`);
+    let result1 = await pool.request().query(`exec SEL_ValidaCodigoUsuario '${rut}', '${codigo}'`);
     console.dir("db:" + result1);
     return result1.recordset;
   } catch (err) {
@@ -104,9 +96,7 @@ const dbGetCodigo = async (rut, codigo) => {
 const getMenu = async (UsuarioID) => {
   try {
     let pool = await getConnection();
-    let result1 = await pool
-      .request()
-      .query(`exec SEL_MenuUsuario '${UsuarioID}'`);
+    let result1 = await pool.request().query(`exec SEL_MenuUsuario '${UsuarioID}'`);
     if (result1.recordset.length == 0) {
       return {
         error: "No se encontraron resultados.",
@@ -166,11 +156,7 @@ const getForm = async () => {
 const getPPU = async (PPU, numFactura, RUTDocumento) => {
   try {
     let pool = await getConnection();
-    let result1 = await pool
-      .request()
-      .query(
-        `exec SEL_PrimeraInscripcion '${PPU}', '${numFactura}', '${RUTDocumento}'`
-      );
+    let result1 = await pool.request().query(`exec SEL_PrimeraInscripcion '${PPU}', '${numFactura}', '${RUTDocumento}'`);
     if (result1.recordset.length == 0) {
       return {
         error: "No se encontraron resultados.",

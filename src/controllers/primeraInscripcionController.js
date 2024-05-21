@@ -13,8 +13,10 @@ const dbDespachos = require("../database/DespachosDB");
 const dbDocumentosRecibidos = require("../database/DocumentosRecibidosDB");
 
 const getPrimeraInscripcion = async (req, res) => {
+  console.log("paso getprimera");
   try {
     const primeraSearch = {
+      BANCO: req.body.Banco,
       PPU: req.body.PPU,
       NUMFactura: req.body.NUMFactura,
       RUTFactura: req.body.RUTFactura,

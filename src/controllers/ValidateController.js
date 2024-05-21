@@ -18,7 +18,6 @@ const transporter = nodemailer.createTransport({
 
 const doValidate = async (req, res) => {
   try {
-    console.log("llegamos al controller");
     const { inputRut, inputPass } = req.body;
     if (!inputRut || !inputPass) {
       return res.status(400).json({ message: "Rut y contraseña requeridos." });
@@ -26,7 +25,6 @@ const doValidate = async (req, res) => {
     if (!validateRut(inputRut)) {
       return res.status(400).json({ message: "El Rut no es valido." });
     }
-
     let loginValue = await Service.validarUsuario(inputRut, inputPass, res);
     //Check if user actually exists
     //validation
@@ -65,17 +63,14 @@ const doValidate = async (req, res) => {
 
 const sendMail = (mail, codigo) => {
   const mailOptions = {
-    from: `${process.env.MAIL_SENDER}`,
-    to: `${mail}`,
-    subject: "Codigo de verificacion",
-    text: `Este es su código para ingresar a tramita
-
-    ${codigo}
-    
-    
-    Atte.
-    
-    Tramita S.P.A.`,
+    from: "${process.env.MAIL_SENDER}",
+    to: "{mail}",
+    html: true,
+    subject: "Codigo de Autorización  ${codigo}",
+    html: "Este es su código para ingresar a tramita <br><br><font color='red'><b>${codigo}</b></font><br><br><br>Atte.<br><br>Tramita S.P.A.",
+    TargetName: "STARTTLS/smtp.office365.com",
+    EnableSsl: true,
+    UseDefaultCredentials: false,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {

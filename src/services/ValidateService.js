@@ -3,7 +3,6 @@ const db = require("../database/db.js");
 const validarUsuario = async (inputRut, inputPass) => {
   try {
     //add if() to find the user, if found, save the rut and validate password
-    console.log("llegamos al service");
     let foundUser = await db.dbLogin(inputRut, inputPass);
     //return Values (UsuarioID, NombreUsuario, EMailUsuario, AccessToken)
     if (foundUser.error != null && foundUser.error != "") {
@@ -12,7 +11,6 @@ const validarUsuario = async (inputRut, inputPass) => {
     if (foundUser == null || foundUser.length == 0) {
       return null;
     }
-    console.log("Despues de llamar a la bdd");
     let user = foundUser[0];
     let code = require("crypto").randomInt(10 ** 11, 10 ** 12 - 1);
     await db.dbSetCodigo(user.UsuarioID, code);
