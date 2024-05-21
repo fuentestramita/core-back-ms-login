@@ -63,11 +63,10 @@ const doValidate = async (req, res) => {
 
 const sendMail = (mail, codigo) => {
   const mailOptions = {
-    from: "${process.env.MAIL_SENDER}",
-    to: "{mail}",
-    html: true,
-    subject: "Codigo de Autorización  ${codigo}",
-    html: "Este es su código para ingresar a tramita <br><br><font color='red'><b>${codigo}</b></font><br><br><br>Atte.<br><br>Tramita S.P.A.",
+    from: `${process.env.MAIL_SENDER}`,
+    to: `${mail}`,
+    subject: `Codigo de Autorización  ${codigo}`,
+    html: `Este es su código para ingresar a tramita <br><br><font color='red'><b>${codigo}</b></font><br><br><br>Atte.<br><br>Tramita S.P.A.`,
     TargetName: "STARTTLS/smtp.office365.com",
     EnableSsl: true,
     UseDefaultCredentials: false,
