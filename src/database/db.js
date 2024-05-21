@@ -225,6 +225,7 @@ function validateUser(password, hash) {
 }
 
 module.exports = {
+  getConnection,
   dbLogin: dbLogin,
   dbSetCodigo,
   dbGetCodigo,

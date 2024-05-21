@@ -17,7 +17,7 @@ const doPPU = async (PPU, numFactura, RUTDocumento) => {
       { NumeroOperacion: ppuValues.NumeroOperacion },
       { NumeroFactura: ppuValues.NumeroFactura },
       { Origen: ppuValues.Origen },
-      { RutCliente: ppuValues.RutCliente },
+      { RutCliente: ppuValues.RutCliente },a
       { RutRepresentanteLegal: ppuValues.RutRepresentanteLegal },
       { Contacto: ppuValues.Contacto },
       { TelefonoContacto: ppuValues.TelefonoContacto },

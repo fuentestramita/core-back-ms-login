@@ -1,119 +1,64 @@
 const Service = require("../services/ValidateService");
 const Primera = require("../models/modelPrimeraInscripcion");
+const tablasGenerales = require("../models/modelGenerales");
+const fGenerales = require("../controllers/generalesController");
+const TipoCobro = require("../models/modelValoresCobro");
+const personaEmpresas = require("../models/modelPersonasEmpresas");
+const vehiculos = require("../models/modelVehiculo");
+const documentosRecibidos = require("../models/modelDocumentosRecibidos");
+const despachos = require("../models/modelDespachos");
+
+const dbPrimera = require("../database/PrimeraInscripcionDB");
+const dbDespachos = require("../database/DespachosDB");
+const dbDocumentosRecibidos = require("../database/DocumentosRecibidosDB");
 
 const getPrimeraInscripcion = async (req, res) => {
-  const primeraSearch = {
-    PPU: req.body.PPU,
-    NUMFactura: req.body.NUMFactura,
-    RUTFactura: req.body.RUTFactura,
-  };
-
-  let primera = Primera;
-  primera.datosTramita.ppu = primeraSearch.PPU;
-  (primera.datosTramita.estadoID = 3),
-    (primera.datosTramita.estado = [
-      {
-        id: 1,
-        descripcion: "INGRESADO",
-        selected: 0,
-      },
-      {
-        id: 2,
-        descripcion: "RECIBIDO",
-        selected: 0,
-      },
-      {
-        id: 3,
-        descripcion: "ACEPTADO",
-        selected: 1,
-      },
-      {
-        id: 4,
-        descripcion: "RECHAZADO",
-        selected: 0,
-      },
-    ]);
-
-  (primera.datosVehiculo.vehiculoID = 3),
-    (primera.datosVehiculo.vehiculo = [
-      {
-        id: 1,
-        descripcion: "Kia",
-        selected: 0,
-      },
-      {
-        id: 2,
-        descripcion: "mitsubishi",
-        selected: 0,
-      },
-      {
-        id: 3,
-        descripcion: "Toyota",
-        selected: 1,
-      },
-      {
-        id: 4,
-        descripcion: "Ford",
-        selected: 0,
-      },
-    ]);
-
-  (primera.datosTramita.comunaID = 3),
-    (primera.datosTramita.comuna = [
-      {
-        id: 1,
-        descripcion: "la Florida",
-        selected: 0,
-      },
-      {
-        id: 2,
-        descripcion: "la Granja",
-        selected: 0,
-      },
-      {
-        id: 3,
-        descripcion: "Puente Alto",
-        selected: 1,
-      },
-      {
-        id: 4,
-        descripcion: "La Reina",
-        selected: 0,
-      },
-    ]);
-
-  primera.CalidadMeroTenedor = [
-    {
-      id: 1,
-      descripcion: "ARRENDAMIENTO",
-      selected: 0,
-    },
-    {
-      id: 2,
-      descripcion: "DEPOSITARIO",
-      selected: 0,
-    },
-    {
-      id: 3,
-      descripcion: "COMODATARIO",
-      selected: 1,
-    },
-    {
-      id: 4,
-      descripcion: "USUFRUCTUARIO",
-      selected: 0,
-    },
-  ];
-
   try {
-    console.log(primeraSearch.PPU);
-    console.log(primeraSearch.NUMFactura);
-    console.log(primeraSearch.RUTFactura);
+    const primeraSearch = {
+      PPU: req.body.PPU,
+      NUMFactura: req.body.NUMFactura,
+      RUTFactura: req.body.RUTFactura,
+    };
 
-    res.status(200).json(primera);
-    return res;
+    let rsPrimera = await dbPrimera.SEL_PrimeraInscripcion(primeraSearch.PPU, primeraSearch.NUMFactura, primeraSearch.RUTFactura);
+    let rsGenerales = await dbPrimera.SEL_ALL();
+
+    // users.find(user => user.id == 1)
+
+    if (rsPrimera.datos.length == 0) {
+      let primera = Primera;
+      primera.datosTramita.estado = fGenerales.setSelected(rsGenerales.datos[tablasGenerales.ESTADOS], primera.datosTramita.estadoID);
+      primera.datosTramita.comuna = fGenerales.setSelected(rsGenerales.datos[tablasGenerales.COMUNAS], primera.datosTramita.comunaID);
+      primera.datosTramita.oficina = fGenerales.setSelected(rsGenerales.datos[tablasGenerales.OFICINAS], primera.datosTramita.oficinaID);
+      primera.datosTramita.observacion = fGenerales.setSelected(rsGenerales.datos[tablasGenerales.OBSERVACIONES], primera.datosTramita.observacionID);
+      primera.datosTramita.numeroPlacas = tablasGenerales.cantidadPlacas;
+      primera.datosTramita.valorPrimeraInscripcion = fGenerales.setSelected(rsGenerales.datos[tablasGenerales.VALORESCOBRO]).filter((TiposCobro) => TiposCobro["TipoCobro"] == "PRIMERA INSCRIPCION");
+      primera.datosTramita.valorTramita = fGenerales.setSelected(rsGenerales.datos[tablasGenerales.VALORESCOBRO]).filter((TiposCobro) => TiposCobro["TipoCobro"] == "TRAMITA");
+      primera.datosTramita.valorServicioTag = fGenerales.setSelected(rsGenerales.datos[tablasGenerales.VALORESCOBRO]).filter((TiposCobro) => TiposCobro["TipoCobro"] == "VALOR TAG");
+      primera.datosTramita.valorNotaria = fGenerales.setSelected(rsGenerales.datos[tablasGenerales.VALORESCOBRO]).filter((TiposCobro) => TiposCobro["TipoCobro"] == "NOTARIA");
+      primera.datosTramita.valorDespachoCorreo = fGenerales.setSelected(rsGenerales.datos[tablasGenerales.VALORESCOBRO]).filter((TiposCobro) => TiposCobro["TipoCobro"] == "DESPACHO");
+      primera.datosVehiculo = vehiculos;
+      primera.datosAdquirente = personaEmpresas;
+
+      let rsDoctosRecibidos = await dbDocumentosRecibidos.SEL_DocumentosRecibidos(0);
+      let rsDespachos = await dbDespachos.SEL_Despachos(0);
+
+      primera.documentosRecibidos = rsDoctosRecibidos.datos.length > 0 ? rsDoctosRecibidos : documentosRecibidos;
+      primera.despachos = rsDespachos.datos.length > 0 ? rsDoctosRecibidos : despachos;
+
+      res.status(200).json(primera);
+
+      return res;
+    }
+
+    if (recordset.datos.length > 0) {
+      let primera = Primera;
+      primera.datosTramita.ppu = primeraSearch.PPU;
+      res.status(200).json(primera);
+      return res;
+    }
   } catch (error) {
-    console.log(error);
+    console.log(error.json);
   }
 };
 

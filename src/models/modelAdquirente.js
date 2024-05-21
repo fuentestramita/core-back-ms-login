@@ -1,12 +1,12 @@
 var sql = require("mssql");
 
-const VehiculoSchema = {
-  VehiculoID: (sql.TYPES.Numeric, ""),
-  PPU: (sql.TYPES.VarChar, ""),
-  PPUDV: (sql.TYPES.VarChar, ""),
-  AnoFabricracion: (sql.TYPES.Int, null),
-  Puertas: (sql.TYPES.Int, null),
-  Asientos: (sql.TYPES.Int, null),
+const Adquirentechema = {
+  adquirenteID: (sql.TYPES.Numeric, ""),
+  rut: (sql.TYPES.VarChar, ""),
+  nombreRazonSocial: (sql.TYPES.VarChar, ""),
+  direccion: (sql.TYPES.Int, null),
+  numero: (sql.TYPES.Int, null),
+  compplemento: (sql.TYPES.Int, null),
   NroMotor: (sql.TYPES.VarChar, ""),
   NroChasis: (sql.TYPES.VarChar, ""),
   NroSerie: (sql.TYPES.VarChar, ""),
@@ -31,4 +31,4 @@ const VehiculoSchema = {
   CarroceriaID: (sql.TYPES.Numeric, ""),
 };
 
-module.exports = VehiculoSchema;
+module.exports = Adquirentechema;
