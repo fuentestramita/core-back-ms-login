@@ -12,5 +12,6 @@ router.post("/validate", LoginController.doLogin);
 router.post("/get-menu", verifyToken, MenuController.doMenu);
 router.post("/get-primera-inscripcion", primeraInscripcion.getPrimeraInscripcion);
 router.post("/get-empresas", empresas.getEmpresas);
+router.post("/get-token", ValidateController.getToken);
 
 module.exports = router;

@@ -2,20 +2,17 @@ const { access } = require("fs");
 const Service = require("../services/LoginService");
 const { validateRut } = require("@fdograph/rut-utilities");
 const jwt = require("jsonwebtoken");
+const DB = require("../database/DB.js");
+const UsuariosDB = require("../database/UsuariosDB.js");
 
 async function doLogin(req, res) {
   try {
     const { rutUsuario, codigo } = req.body;
-    console.log(`RUT: ${rutUsuario} | codigo ${codigo}`);
     if (!rutUsuario) {
-      return res
-        .status(400)
-        .json({ message: "El ID de Usuario no es valido." });
+      return res.status(400).json({ message: "El ID de Usuario no es valido." });
     }
     if (codigo == null || codigo < 100000000000 || codigo > 999999999999) {
-      return res
-        .status(400)
-        .json({ message: "El código ingresado no es valido." });
+      return res.status(400).json({ message: "El código ingresado no es valido." });
     }
     if (!validateRut(rutUsuario)) {
       return res.status(400).json({ message: "El Rut no es valido." });
@@ -27,9 +24,9 @@ async function doLogin(req, res) {
       return res;
     }
 
-    console.log("llegamos a generar token");
     //Get accessToken from jwt
     let accessToken = generateToken(respuesta, res);
+    var ret = UsuariosDB.INS_Token(rutUsuario, accessToken);
 
     //Send response
     res.status(respuesta.statusCode);
@@ -70,11 +67,7 @@ const generateToken = (foundUser, res) => {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // cookie expiration
     });
-    const refreshToken = jwt.sign(
-      { idUsuario: foundUser.usuarioID, rutUsuario: foundUser.rutUsuario },
-      refresh_key,
-      { expiresIn: "604800000" }
-    );
+    const refreshToken = jwt.sign({ idUsuario: foundUser.usuarioID, rutUsuario: foundUser.rutUsuario }, refresh_key, { expiresIn: "604800000" });
     //Save refresh token to database for current user
     res.cookie("refreshJWT", refreshToken, {
       httpOnly: true,

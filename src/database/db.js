@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 const { dir } = require("console");
 const sql = require("mssql");
 const DB_USER = process.env.DB_USER;

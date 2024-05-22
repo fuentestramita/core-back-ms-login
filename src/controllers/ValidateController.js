@@ -1,4 +1,6 @@
 const Service = require("../services/ValidateService");
+const generales = require("../controllers/generalesController.js");
+
 const { validateRut } = require("@fdograph/rut-utilities");
 const nodemailer = require("nodemailer");
 
@@ -44,6 +46,7 @@ const doValidate = async (req, res) => {
     } else if (loginValue.length > 0) {
       loginValue = loginValue[0];
     }
+
     //send Mail
     sendMail(loginValue.usuarioEmail, loginValue.codigo);
 
@@ -80,4 +83,15 @@ const sendMail = (mail, codigo) => {
   });
 };
 
-module.exports = { doValidate };
+const getToken = async (req, res) => {
+  const cookies = req.cookies;
+  var accessT = cookies.accessJWT;
+
+  const data = {
+    data: `${accessT}`,
+  };
+  res.status(200);
+  return res.json(data);
+};
+
+module.exports = { doValidate, getToken };

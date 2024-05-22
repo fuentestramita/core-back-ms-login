@@ -1,12 +1,14 @@
 const Service = require("../services/MenuService.js");
+const generales = require("../controllers/generalesController.js");
+
 const jwt = require("jsonwebtoken");
 const doMenu = async (req, res) => {
   console.log("running menu controller");
   const cookies = req.cookies;
-  var accessT = null; //cookies.accessJWT;
+  var accessT = cookies.accessJWT;
 
   if (accessT == null) {
-    accessT = extractToken(req);
+    accessT = generales.extractToken(req);
   }
 
   if (!cookies) return res.status(400).json({ message: `No existe la cookie.` });
@@ -27,14 +29,5 @@ const doMenu = async (req, res) => {
   res.json(menuValue);
   return res;
 };
-
-function extractToken(req) {
-  if (req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer") {
-    return req.headers.authorization.split(" ")[1];
-  } else if (req.query && req.query.token) {
-    return req.query.token;
-  }
-  return null;
-}
 
 module.exports = { doMenu };
