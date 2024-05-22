@@ -13,6 +13,7 @@ const validarUsuario = async (inputRut, inputPass) => {
     }
     let user = foundUser[0];
     let code = require("crypto").randomInt(10 ** 11, 10 ** 12 - 1);
+    console.log(code);
     await db.dbSetCodigo(user.UsuarioID, code);
     //send email to foundUser.EmailUsuario with code
     let respuesta = {

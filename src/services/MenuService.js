@@ -2,13 +2,12 @@ const DB = require("../database/db");
 
 const doMenu = async (UsuarioID) => {
   try {
-    console.log("running menu service");
+    console.log(UsuarioID);
     let dbResponse = await DB.getMenu(UsuarioID);
     let MenuList;
     if (dbResponse.length == 0) {
       return null;
     }
-    console.log("BDD called");
     MenuList = dbResponse;
     // if (dbResponse.length > 0) {
     //   MenuList = dbResponse[0];
