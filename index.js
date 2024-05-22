@@ -13,10 +13,29 @@ app.use(
   })
 );
 
-app.options("/get-menu", cors());
-app.post("/get-menu", cors(), function (req, res, next) {
-  res.json({ msg: "This route has CORS enabled with preflight request handling" });
-});
+app.options(
+  "/get-menu",
+  cors({
+    credentials: true,
+    allowedHeaders: ["Authorization", "Content-Type", "Cookie"],
+    exposedHeaders: ["Authorization"],
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+app.post(
+  "/get-menu",
+  cors({
+    credentials: true,
+    allowedHeaders: ["Authorization", "Content-Type", "Cookie"],
+    exposedHeaders: ["Authorization"],
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  }),
+  function (req, res, next) {
+    res.json({ msg: "This route has CORS enabled with preflight request handling" });
+  }
+);
 
 const port = process.env.port || 8080;
 const cookieParser = require("cookie-parser");
