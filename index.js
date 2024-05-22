@@ -2,13 +2,14 @@ const express = require("express");
 const Router = require("./src/routes/Routes");
 const cors = require("cors");
 const app = express();
+
 app.use(
   cors({
+    credentials: true,
+    allowedHeaders: ["Authorization", "Content-Type", "Cookie"],
+    exposedHeaders: ["Authorization"],
     origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Authorization", "Content-Type"],
-    exposedHeaders: ["Authorization"],
-    credentials: true,
   })
 );
 
@@ -18,7 +19,6 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 module.exports = app;
-app.options("/get-menu", cors());
 app.listen(port, () => {
   try {
     console.log("listening on root");
