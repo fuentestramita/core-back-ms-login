@@ -8,8 +8,8 @@ const corsConfig = {
   allowedHeaders: ["Authorization", "Content-Type", "Cookie"],
   exposedHeaders: ["Authorization"],
   preflightContinue: true,
-  origin: "*",
-  // origin: ["http://localhost:3000", "https://calm-flower-019659e10.4.azurestaticapps.net", "null"],
+  // origin: "*", FUNCIONA PULENTO
+  origin: ["http://localhost:3000", "https://calm-flower-019659e10.4.azurestaticapps.net", "https://calm-flower-019659e10-14.centralus.4.azurestaticapps.net"],
   methods: ["GET", "POST", "PUT", "DELETE"],
 };
 
