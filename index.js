@@ -7,13 +7,14 @@ const corsConfig = {
   credentials: true,
   allowedHeaders: ["Authorization", "Content-Type", "Cookie"],
   exposedHeaders: ["Authorization"],
+  preflightContinue: true,
   origin: ["http://localhost:3000", "https://calm-flower-019659e10-14.centralus.4.azurestaticapps.net/"],
   methods: ["GET", "POST", "PUT", "DELETE"],
 };
 
 app.use(cors(corsConfig));
-
-app.options("/get-menu", cors(corsConfig));
+app.options("*", cors(corsConfig));
+// app.options("/get-menu", cors(corsConfig));
 
 const port = process.env.port || 8080;
 const cookieParser = require("cookie-parser");
