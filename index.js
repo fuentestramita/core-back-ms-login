@@ -3,39 +3,17 @@ const Router = require("./src/routes/Routes");
 const cors = require("cors");
 const app = express();
 
-app.use(
-  cors({
-    credentials: true,
-    allowedHeaders: ["Authorization", "Content-Type", "Cookie"],
-    exposedHeaders: ["Authorization"],
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
+const corsConfig = {
+  credentials: true,
+  allowedHeaders: ["Authorization", "Content-Type", "Cookie"],
+  exposedHeaders: ["Authorization"],
+  origin: ["http://localhost:3000", "https://calm-flower-019659e10-14.centralus.4.azurestaticapps.net/"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+};
 
-app.options(
-  "/get-menu",
-  cors({
-    credentials: true,
-    allowedHeaders: ["Authorization", "Content-Type", "Cookie"],
-    exposedHeaders: ["Authorization"],
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
-app.post(
-  "/get-menu",
-  cors({
-    credentials: true,
-    allowedHeaders: ["Authorization", "Content-Type", "Cookie"],
-    exposedHeaders: ["Authorization"],
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  }),
-  function (req, res, next) {
-    res.json({ msg: "This route has CORS enabled with preflight request handling" });
-  }
-);
+app.use(cors(corsConfig));
+
+app.options("/get-menu", cors(corsConfig));
 
 const port = process.env.port || 8080;
 const cookieParser = require("cookie-parser");
