@@ -20,6 +20,7 @@ require("dotenv").config();
 const validateToken = (req, res, next) => {
   const authHeader = req.headers;
   if (!authHeader) return res.status(401).json("Unauthorize user"); //Si no hay header, return no autorizado
+
   const { accessT, refreshT } = generales.extractToken(req);
   if (!accessT) {
     // jwt.verify(refreshT, process.env.REFRESH_KEY, (err, decoded) => {
@@ -58,43 +59,17 @@ const validateToken = (req, res, next) => {
     }
   });
 };
-const refreshAccessToken = async (refreshToken, res, next) => {
-  let refreshRut;
-  jwt.verify(refreshToken, process.env.REFRESH_KEY, async (err, decoded) => {
-    refreshRut = decoded.rutUsuario;
-    foundUser = await db.dbGetUser(decoded.idUsuario);
-    if (foundUser != null && typeof foundUser != "undefined") {
-      dbRut = foundUser[0].RUTUsuario;
-    } else {
-      return res.sendStatus(401);
-    }
 
-    if (refreshRut == dbRut) {
-      const accessToken = jwt.sign(
-        {
-          data: {
-            idUsuario: foundUser.usuarioID,
-            idPerfil: foundUser.perfilID,
-            EMailUsuario: foundUser.email,
-            rutUsuario: foundUser.rutUsuario,
-          },
-        },
-        process.env.ACCESS_KEY,
-        { expiresIn: "1d" } // token expiration
-      );
-      console.log("generate cookie");
-      res.cookie("accessJWT", accessToken, {
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000, // cookie expiration
-      });
-      console.log("generated");
-      next();
-    } else {
-      return res.sendStatus(403);
-    }
-  });
-  //validar rut de ambos token con la vdd
-  //si el rut es valido, generar nuevo access token y retornar
-  //si el rut es invalido, retornar status 403
+const refreshAccessToken2 = (req, res, next) => {
+  // if ((validateToken = (req, res, next))) {
+  //   exp = err.expiredAt;
+  //   console.log(Date.now() >= exp * 1000); //false = expired || true = valid
+  //   if (!(Date.now() >= exp * 1000)) {
+  //     console.log("validando");
+  //     jwt.decode(refreshT);
+  //     return res.status(200).json({ message: "Token Actualizado" });
+  //   }
+  // } else return res.status(401).json({ message: "Inicie sesión nuevamente.2" }); //Si no hay header, return no autorizado
 };
+
 module.exports = validateToken;

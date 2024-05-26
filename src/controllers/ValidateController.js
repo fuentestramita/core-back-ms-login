@@ -1,5 +1,7 @@
 const Service = require("../services/ValidateService");
 const generales = require("../controllers/generalesController.js");
+const tokenValidation = require("../middleware/tokenValidation.js");
+const jwt = require("jsonwebtoken");
 
 const { validateRut } = require("@fdograph/rut-utilities");
 const nodemailer = require("nodemailer");
@@ -94,4 +96,20 @@ const getToken = async (req, res) => {
   return res.json(data);
 };
 
-module.exports = { doValidate, getToken };
+const refreshToken = async (req, res) => {
+  const cookies = req.cookies;
+  //var accessT = cookies.accessJWT;
+  const { accessT, refreshT } = generales.extractToken(req);
+
+  jwt.verify(accessT, process.env.ACCESS_KEY, (err, decoded) => {
+    if ((validateToken = (req, res))) {
+      exp = err.expiredAt;
+      if (!(Date.now() >= exp * 1000)) {
+        jwt.decode(refreshT);
+        return res.status(200).json({ message: "Token Actualizado" });
+      }
+    } else return res.status(401).json({ message: "Inicie sesión nuevamente.2" }); //Si no hay header, return no autorizado
+  });
+};
+
+module.exports = { doValidate, getToken, refreshToken };
