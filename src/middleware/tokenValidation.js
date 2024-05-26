@@ -7,6 +7,11 @@ const validateToken = (req, res, next) => {
   if (!authHeader) return res.status(401).json("Unauthorize user"); //Si no hay header, return no autorizado
   const cookies = req.cookies;
   const accessT = cookies.accessJWT;
+
+  if (accessT == null) {
+    accessT = generales.extractToken(req);
+  }
+
   const refreshT = cookies.refreshJWT;
   if (!accessT) {
     jwt.verify(refreshT, process.env.REFRESH_KEY, (err, decoded) => {
