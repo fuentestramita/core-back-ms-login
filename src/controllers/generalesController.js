@@ -15,12 +15,23 @@ function setSelected(resultSet, setvalue) {
 // }
 
 function extractToken(req) {
-  if (req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer") {
-    return req.headers.authorization.split(" ")[1];
-  } else if (req.query && req.query.token) {
-    return req.query.token;
+  const cookies = req.cookies;
+  let accessT = null;
+
+  if (accessT == null) {
+    if (req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer") {
+      accessT = req.headers.authorization.split(" ")[1];
+    } else if (req.query && req.query.token) {
+      accessT = req.query.token;
+    }
   }
-  return null;
+
+  const refreshT = cookies.refreshJWT;
+
+  return {
+    accessT,
+    refreshT,
+  };
 }
 
 module.exports = { setSelected, extractToken };
