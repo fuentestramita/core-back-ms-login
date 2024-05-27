@@ -2,7 +2,6 @@ const { access } = require("fs");
 const Service = require("../services/LoginService");
 const { validateRut } = require("@fdograph/rut-utilities");
 const jwt = require("jsonwebtoken");
-const DB = require("../database/DB.js");
 const UsuariosDB = require("../database/UsuariosDB.js");
 
 async function doLogin(req, res) {

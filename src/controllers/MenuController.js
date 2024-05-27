@@ -1,31 +1,57 @@
 const Service = require("../services/MenuService.js");
 const generales = require("../controllers/generalesController.js");
-
+const Menu = require("../models/modelMenu.js");
 const jwt = require("jsonwebtoken");
+
 const doMenu = async (req, res) => {
   try {
-    console.log("running menu controller");
     const cookies = req.cookies;
 
     const { accessT } = generales.extractToken(req);
-    console.log("entra");
     if (!cookies) return res.status(400).json({ message: `No existe la cookie.` });
     if (!accessT) return res.status(400).json({ message: `Acceso no autorizado.` });
 
     const UsuarioID = jwt.decode(accessT).data.idUsuario;
-    console.log("id", UsuarioID);
-    let menuValue = await Service.doMenu(UsuarioID);
-    //Check if user actually exists
-    if (menuValue == null) {
+    let rsMenu = await Service.doMenu(UsuarioID); // Llamado base de datos
+    if (rsMenu == null) {
       res.status(401).json({
         message: `No existen menus.`,
       });
 
       return res;
     }
+    console.log(rsMenu);
+    // let menu = Menu;
 
+    // rsMenu.forEach((obj) => {
+    //   if (obj.PadreID == null) {
+    //     menu.push([
+    //       {
+    //         id: obj.MenuID,
+    //         name: obj.Menu,
+    //         route: obj.URL,
+    //         submenu: findSubMenu(rsMenu, obj.MenuID),
+    //       },
+    //     ]);
+    //   }
+    // });
+
+    // crea un arreglo llamado findSeMenu
+    // recibe menus y el id padre
+    // recorre todo el array y solo pushea al submenu cuando la condicion es true
+    const findSubMenu = (menus, idPadre) => menus.filter((menu) => menu.PadreID === idPadre);
+
+    // map recorre el array y pushea el return a la constante que creas en este caso el menu
+    const menu = rsMenu.map((menu) => {
+      return {
+        id: menu.id,
+        name: menu.name,
+        route: menu.route,
+        submenu: findSubMenu(rsMenu, menu.id),
+      };
+    });
     res.status(200);
-    res.json(menuValue);
+    res.json(menu);
     return res;
   } catch (e) {
     return e;
@@ -33,3 +59,31 @@ const doMenu = async (req, res) => {
 };
 
 module.exports = { doMenu };
+
+const BuscaSubMenus = async (rsMenu, idPadre) => {
+  let subMenu = SubMenu;
+  rsMenu.forEach((obj) => {
+    if (obj.PadreID == obj.MenuID) {
+      subMenu.push([
+        {
+          id: obj.MenuID,
+          name: obj.Menu,
+          route: obj.URL,
+        },
+      ]);
+    }
+  });
+  console.log(subMenu);
+
+  return subMenu;
+};
+
+const SubMenu = [
+  {
+    id: 0,
+    name: "",
+    route: "",
+  },
+];
+
+const findSubMenu = (menus, idPadre) => menus.filter(menu.PadreID === idPadre);
