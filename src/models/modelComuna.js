@@ -3,7 +3,7 @@ const ciudades = require("../models/modelCiudad");
 
 const ComunaSchema = {
   id: sql.TYPES.Numeric,
-  dscripcion: sql.TYPES.VarChar,
+  descripcion: sql.TYPES.VarChar,
   selected: sql.TYPES.Bit,
   ciudad: ciudades,
 };

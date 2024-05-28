@@ -3,7 +3,7 @@ const regiones = require("../models/modelRegion");
 
 const CiudadSchema = {
   id: (sql.TYPES.Numeric, null),
-  dscripcion: (sql.TYPES.VarChar, ""),
+  descripcion: (sql.TYPES.VarChar, ""),
   selected: (sql.TYPES.Bit, 0),
   Region: regiones,
 };

@@ -5,7 +5,7 @@ const DireccionSchema = {
   direccion: (sql.TYPES.VarChar, ""),
   numero: (sql.TYPES.VarChar, ""),
   complemento: (sql.TYPES.VarChar, ""),
-  Comuna: comunas,
+  comuna: comunas,
 };
 
 module.exports = DireccionSchema;
