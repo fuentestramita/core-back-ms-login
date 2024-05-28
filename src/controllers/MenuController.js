@@ -21,20 +21,6 @@ const doMenu = async (req, res) => {
       return res;
     }
     console.log(rsMenu);
-    // let menu = Menu;
-
-    // rsMenu.forEach((obj) => {
-    //   if (obj.PadreID == null) {
-    //     menu.push([
-    //       {
-    //         id: obj.MenuID,
-    //         name: obj.Menu,
-    //         route: obj.URL,
-    //         submenu: findSubMenu(rsMenu, obj.MenuID),
-    //       },
-    //     ]);
-    //   }
-    // });
 
     // crea un arreglo llamado findSeMenu
     // recibe menus y el id padre
@@ -59,31 +45,5 @@ const doMenu = async (req, res) => {
 };
 
 module.exports = { doMenu };
-
-const BuscaSubMenus = async (rsMenu, idPadre) => {
-  let subMenu = SubMenu;
-  rsMenu.forEach((obj) => {
-    if (obj.PadreID == obj.MenuID) {
-      subMenu.push([
-        {
-          id: obj.MenuID,
-          name: obj.Menu,
-          route: obj.URL,
-        },
-      ]);
-    }
-  });
-  console.log(subMenu);
-
-  return subMenu;
-};
-
-const SubMenu = [
-  {
-    id: 0,
-    name: "",
-    route: "",
-  },
-];
 
 const findSubMenu = (menus, idPadre) => menus.filter(menu.PadreID === idPadre);

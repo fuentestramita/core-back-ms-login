@@ -102,8 +102,10 @@ const refreshToken = async (req, res) => {
   const { accessT, refreshT } = generales.extractToken(req);
 
   jwt.verify(accessT, process.env.ACCESS_KEY, (err, decoded) => {
+    console.log(decoded);
     if ((validateToken = (req, res))) {
-      exp = err.expiredAt;
+      exp = decoded.exp;
+
       if (!(Date.now() >= exp * 1000)) {
         jwt.decode(refreshT);
         return res.status(200).json({ message: "Token Actualizado" });
