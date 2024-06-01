@@ -1,18 +1,13 @@
 function setSelected(resultSet, setvalue) {
   try {
     resultSet.forEach((result) => {
-      result.selected = result.ID == setvalue ? true : false;
+      result.selected = result.id == setvalue;
     });
     return resultSet;
   } catch (err) {
     return { error: err };
   }
 }
-
-// function prueba(resultSet) {
-//   console.log("paso" + setvalue);
-//   return "paso";
-// }
 
 function extractToken(req) {
   const cookies = req.cookies;
