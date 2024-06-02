@@ -1,7 +1,6 @@
 const Service = require("../services/FormService.js");
 
 const doForm = async (req, res) => {
-  console.log("running form controller");
   let formValue = await Service.doForm();
   //Check if user actually exists
   if (formValue == null) {

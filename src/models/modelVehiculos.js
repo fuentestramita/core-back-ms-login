@@ -1,7 +1,7 @@
 var sql = require("mssql");
 
 const VehiculoSchema = {
-  vehiculoID: (sql.TYPES.Numeric, ""),
+  vehiculoId: (sql.TYPES.Numeric, ""),
   ppu: (sql.TYPES.VarChar, ""),
   ppuDV: (sql.TYPES.VarChar, ""),
   anoFabricracion: (sql.TYPES.Int, null),
@@ -19,16 +19,16 @@ const VehiculoSchema = {
   nroEjesDisponibles: (sql.TYPES.Int, null),
   nroPlacas: (sql.TYPES.Int, null),
   fechaInscripcion: (sql.TYPES.DateTime, ""),
-  modeloID: (sql.TYPES.Numeric, ""),
-  colorID: (sql.TYPES.Numeric, ""),
-  tipoVehiculoID: (sql.TYPES.Numeric, ""),
-  combustibleID: (sql.TYPES.Numeric, ""),
-  unidadCargaID: (sql.TYPES.Numeric, ""),
-  unidadPesoID: (sql.TYPES.Numeric, ""),
-  traccionID: (sql.TYPES.Numeric, ""),
-  potenciaMotorID: (sql.TYPES.Numeric, ""),
-  unidadPotenciaID: (sql.TYPES.Numeric, ""),
-  carroceriaID: (sql.TYPES.Numeric, ""),
+  modeloId: (sql.TYPES.Numeric, ""),
+  colorId: (sql.TYPES.Numeric, ""),
+  tipoVehiculoId: (sql.TYPES.Numeric, ""),
+  combustibleId: (sql.TYPES.Numeric, ""),
+  unidadCargaId: (sql.TYPES.Numeric, ""),
+  unidadPesoId: (sql.TYPES.Numeric, ""),
+  traccionId: (sql.TYPES.Numeric, ""),
+  potenciaMotorId: (sql.TYPES.Numeric, ""),
+  unidadPotenciaId: (sql.TYPES.Numeric, ""),
+  carroceriaId: (sql.TYPES.Numeric, ""),
 };
 
 module.exports = VehiculoSchema;

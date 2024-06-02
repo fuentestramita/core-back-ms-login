@@ -1,40 +1,46 @@
 var sql = require("mssql");
-const vehiculos = require("../models/modelVehiculo");
-const estados = require("../models/modelEstado");
-const comunas = require("../models/modelComuna");
-const oficinas = require("../models/modelOficina");
-const observaciones = require("../models/modelObservacion");
-const cantidadPlacas = require("./modelGenerales").default;
-const valoresCobro = require("../models/modelValoresCobro");
-const Mensajes = require("./modelGenerales").Mensajes;
+
+const modelVehiculos = require("./modelVehiculos");
+const modelEstados = require("../models/modelEstado");
+const modelComunas = require("../models/modelComuna");
+const modelOficinas = require("../models/modelOficina");
+const modelObservaciones = require("../models/modelObservacion");
+const modelCantidadPlacas = require("./modelGenerales").default;
+const modelValoresCobro = require("../models/modelValoresCobro");
+const modelPersonaEmpresas = require("../models/modelPersonasEmpresas");
+const modelDocumentoRecibido = require("../models/modelDocumentosRecibidos");
+const modelDespachos = require("../models/modelDespachos");
+const modelGenerales = require("../models/modelGenerales");
+
+let adquirente = modelPersonaEmpresas;
 
 const PrimeraInscripcionSchema = {
   mensaje: null,
   datosTramita: {
-    primeraInscripcionID: ((sql.TYPES.Numeric, 0), -1),
-    empresaID: ((sql.TYPES.Numeric, 0), -1),
+    primeraInscripcionId: ((sql.TYPES.Numeric, 0), -1),
+    empresaId: ((sql.TYPES.Numeric, 0), -1),
     ppu: (sql.TYPES.VarChar, ""),
-    estadoID: ((sql.TYPES.Numeric, 0), -1),
-    estado: estados,
+    estadoId: ((sql.TYPES.Numeric, 0), -1),
+    estado: modelEstados,
     numeroOperacion: ((sql.TYPES.VarChar, ""), ""),
     origen: (sql.TYPES.VarChar, ""),
     numeroFactura: (sql.TYPES.VarChar, ""),
     rutCliente: (sql.TYPES.VarChar, ""),
     nombreRazonSocialCliente: (sql.TYPES.VarChar, ""),
     vencimientoContratoLeasing: (sql.TYPES.DateTime, null),
-    rutRepresentanteLegal: (sql.TYPES.VarChar, ""),
+    representanteLegalId: (sql.TYPES.VarChar, ""),
     nombreRazonSocialRepresentanteLegal: (sql.TYPES.VarChar, ""),
-    comunaID: (sql.TYPES.Numeric, 0),
-    comuna: comunas,
+    comunaId: (sql.TYPES.Numeric, 0),
+    comuna: modelComunas,
     contacto: (sql.TYPES.VarChar, ""),
     telefonoContacto: (sql.TYPES.VarChar, ""),
     emailContacto: (sql.TYPES.VarChar, ""),
 
     numeroSolicitud: (sql.TYPES.VarChar, ""),
     estaEntregado: (sql.TYPES.Bit, 0),
-    oficinaID: (sql.TYPES.Numeric, 0),
-    oficina: oficinas,
-    fechaSolicitudRNVM: (sql.TYPES.DateTime, null),
+    oficinaId: (sql.TYPES.Numeric, 0),
+    oficina: modelOficinas,
+    fechaSolicitudRnvm: (sql.TYPES.DateTime, null),
     numeroValija: (sql.TYPES.VarChar, ""),
     ejecutivo: (sql.TYPES.VarChar, ""),
     sucursal: (sql.TYPES.VarChar, ""),
@@ -43,39 +49,38 @@ const PrimeraInscripcionSchema = {
     fechaPadron: (sql.TYPES.DateTime, null),
     codigoDespachoCorreo: (sql.TYPES.VarChar, ""),
 
-    observacionID: (sql.TYPES.Numeric, 0),
-    observacion: observaciones,
-    numeroPlacas: cantidadPlacas,
+    observacionId: (sql.TYPES.Numeric, 0),
+    observacion: modelObservaciones,
+    numeroPlacas: modelGenerales.cantidadPlacas,
     chktag: (sql.TYPES.Bit, 0),
     chkPlacas: (sql.TYPES.Bit, 0),
 
-    fechaIngresoRNVM: (sql.TYPES.DateTime, null),
+    numeroPlacas: (sql.TYPES.DateTime, null),
     observaciones: (sql.TYPES.VarChar, ""),
     correlativoEntrega: (sql.TYPES.VarChar, ""),
     folio: (sql.TYPES.VarChar, ""),
-    EstadoMeraTenencia: (sql.TYPES.VarChar, ""),
 
-    valorPrimeraInscripcionID: (sql.TYPES.Numeric, 0),
-    valorPrimeraInscripcion: valoresCobro,
+    valorPrimeraInscripcionId: (sql.TYPES.Numeric, 0),
+    valorPrimeraInscripcion: modelValoresCobro,
 
-    valorTramitaID: (sql.TYPES.Numeric, 0),
-    valorTramita: valoresCobro,
+    valorTramitaId: (sql.TYPES.Numeric, 0),
+    valorTramita: modelValoresCobro,
 
-    valorServicioTagID: (sql.TYPES.Numeric, 0),
-    valorServicioTag: valoresCobro,
+    valorServicioTagId: (sql.TYPES.Numeric, 0),
+    valorServicioTag: modelValoresCobro,
 
-    valorNotariaID: (sql.TYPES.Numeric, 0),
-    valorNotaria: valoresCobro,
+    valorNotariaId: (sql.TYPES.Numeric, 0),
+    valorNotaria: modelValoresCobro,
 
-    valorDecpachoCorreoID: (sql.TYPES.Numeric, 0),
-    valorDecpachoCorreo: valoresCobro,
+    valorDespachoCorreoId: (sql.TYPES.Numeric, 0),
+    valorDespachoCorreo: modelValoresCobro,
 
-    fechaIngresoTAG: (sql.TYPES.DateTime, null),
+    fechaIngresoTag: (sql.TYPES.DateTime, null),
     f88: (sql.TYPES.Bit, 0),
     valorF88: (sql.TYPES.Numeric, 0),
     flCertCum5594: (sql.TYPES.Bit, 0),
     fotocopiaRutBanco: (sql.TYPES.Bit, 0),
-    certificadoDS5594: (sql.TYPES.Bit, 0),
+    certificadoDs5594: (sql.TYPES.Bit, 0),
     chk1U: (sql.TYPES.Bit, 0),
     chk2U: (sql.TYPES.Bit, 0),
     chk3U: (sql.TYPES.Bit, 0),
@@ -84,7 +89,7 @@ const PrimeraInscripcionSchema = {
     certificadoLeasing: (sql.TYPES.Bit, 0),
     certificadoCombustibles: (sql.TYPES.Bit, 0),
     contratoTelevia: (sql.TYPES.Bit, 0),
-    convenioPAC: (sql.TYPES.Bit, 0),
+    convenioPac: (sql.TYPES.Bit, 0),
     dispositivoTelevia: (sql.TYPES.Bit, 0),
     contratoLeasing: (sql.TYPES.Bit, 0),
     padron: (sql.TYPES.Bit, 0),
@@ -97,61 +102,12 @@ const PrimeraInscripcionSchema = {
     fechaActualizacion: (sql.TYPES.DateTime, null),
     anoProceso: (sql.TYPES.Numeric, 0),
     anoFiltro: (sql.TYPES.Numeric, 0),
-    clienteID: (sql.TYPES.Numeric, 0),
-    usuarioID: (sql.TYPES.Numeric, 0),
+    clienteId: (sql.TYPES.Numeric, 0),
+    usuarioId: (sql.TYPES.Numeric, 0),
   },
-  datosVehiculo: {
-    vehiculoID: (sql.TYPES.Numeric, 0),
-    vehiculo: vehiculos,
-  },
-  datosAdquirente: {
-    adquirenteID: (sql.TYPES.Numeric, ""),
-    rut: (sql.TYPES.VarChar, ""),
-    nombreRazonSocial: (sql.TYPES.VarChar, ""),
-    direccion: (sql.TYPES.Int, null),
-    numero: (sql.TYPES.Int, null),
-    compplemento: (sql.TYPES.Int, null),
-    nroMotor: (sql.TYPES.VarChar, ""),
-    nroChasis: (sql.TYPES.VarChar, ""),
-    nroSerie: (sql.TYPES.VarChar, ""),
-    nroVin: (sql.TYPES.VarChar, ""),
-    carga: (sql.TYPES.Int, null),
-    pesoBruto: (sql.TYPES.Int, ""),
-    otraCarroceria: (sql.TYPES.VarChar, ""),
-    nroEjes: (sql.TYPES.Int, null),
-    codigoCIT: (sql.TYPES.VarChar, ""),
-    nroEjesDisponibles: (sql.TYPES.Int, null),
-    nroPlacas: (sql.TYPES.Int, null),
-    fechaInscripcion: (sql.TYPES.DateTime, ""),
-    modeloID: (sql.TYPES.Numeric, ""),
-    colorID: (sql.TYPES.Numeric, ""),
-    tipoVehiculoID: (sql.TYPES.Numeric, ""),
-    combustibleID: (sql.TYPES.Numeric, ""),
-    unidadCargaID: (sql.TYPES.Numeric, ""),
-    unidadPesoID: (sql.TYPES.Numeric, ""),
-    traccionID: (sql.TYPES.Numeric, ""),
-    potenciaMotorID: (sql.TYPES.Numeric, ""),
-    unidadPotenciaID: (sql.TYPES.Numeric, ""),
-    carroceriaID: (sql.TYPES.Numeric, ""),
-  },
-  documentosRecibidos: [
-    {
-      id: (sql.TYPES.Numeric, null),
-      primeraInscripcionID: (sql.TYPES.Numeric, null),
-      tipoDocumentoID: (sql.TYPES.Numeric, null),
-      naturalezaAdquisicion: (sql.TYPES.VarChar, null),
-      nroDocumentoCausa: (sql.TYPES.VarChar, null),
-      valorNeto: (sql.TYPES.Numeric, null),
-      valorIVAFactura: (sql.TYPES.Numeric, null),
-      valorTotalFactura: (sql.TYPES.Numeric, null),
-      lugarDocumento: (sql.TYPES.VarChar, null),
-      fechaDocumento: (sql.TYPES.DateTime, null),
-      nombreAutorizanteEmisor: (sql.TYPES.VarChar, null),
-      acreedorBeneficiarioDemandante: (sql.TYPES.VarChar, null),
-      pdf: (sql.TYPES.VarChar, null),
-      rutDocumento: (sql.TYPES.VarChar, null),
-      tipoDocumento: (sql.TYPES.VarChar, null),
-    },
-  ],
+  datosVehiculo: { modelVehiculos },
+  datosAdquirente: { adquirente },
+  documentosRecibidos: [modelDocumentoRecibido],
+  despachos: [modelDespachos],
 };
 module.exports = PrimeraInscripcionSchema;

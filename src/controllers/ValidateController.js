@@ -102,7 +102,6 @@ const refreshToken = async (req, res) => {
   const { accessT, refreshT } = generales.extractToken(req);
 
   jwt.verify(accessT, process.env.ACCESS_KEY, (err, decoded) => {
-    console.log(decoded);
     if ((validateToken = (req, res))) {
       exp = decoded.exp;
 

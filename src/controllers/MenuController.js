@@ -20,7 +20,6 @@ const doMenu = async (req, res) => {
 
       return res;
     }
-    console.log(rsMenu);
 
     // crea un arreglo llamado findSeMenu
     // recibe menus y el id padre

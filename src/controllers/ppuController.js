@@ -1,7 +1,6 @@
 const Service = require("../services/PpuService.js");
 
 const doPPU = async (req, res) => {
-  console.log("running ppu controller");
   const { PPU, numFactura, RUTDocumento } = req.body;
   let PPUValue = await Service.doPPU(PPU, numFactura, RUTDocumento);
   //check if non empty

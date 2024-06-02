@@ -85,9 +85,7 @@ const dbSetCodigo = async (id, codigo) => {
 const dbGetCodigo = async (rut, codigo) => {
   try {
     let pool = await getConnection();
-    console.dir(`exec SEL_ValidaCodigoUsuario '${rut}', '${codigo}'`);
     let result1 = await pool.request().query(`exec SEL_ValidaCodigoUsuario '${rut}', '${codigo}'`);
-    console.dir("db:" + result1);
     return result1.recordset;
   } catch (err) {
     return { error: err };

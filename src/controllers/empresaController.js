@@ -5,7 +5,6 @@ const dbEmpresa = require("../database/EmpresasDB");
 const getEmpresas = async (req, res) => {
   try {
     let rsDatos = await dbEmpresa.SEL_Empresas();
-    console.log(rsDatos);
 
     // users.find(user => user.id == 1)
 

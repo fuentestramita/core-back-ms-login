@@ -3,8 +3,8 @@ var sql = require("mssql");
 const DocumentosRecibidosSchema = [
   {
     id: (sql.TYPES.Numeric, null),
-    primeraInscripcionID: (sql.TYPES.Numeric, null),
-    tipoDocumentoID: (sql.TYPES.Numeric, null),
+    primeraInscripcionId: (sql.TYPES.Numeric, null),
+    tipoDocumentoId: (sql.TYPES.Numeric, null),
     naturalezaAdquisicion: (sql.TYPES.VarChar, null),
     nroDocumentoCausa: (sql.TYPES.VarChar, null),
     valorNeto: (sql.TYPES.Numeric, null),
