@@ -33,30 +33,122 @@ const getPrimeraInscripcion = async (req, res) => {
     if (rsPrimera.datos.length == 0) {
       const primeraNOTFound = { ...modelPrimera, mensaje: modelGenerales.Mensajes.NOT_FOUND };
 
-      primeraNOTFound.datosTramita.estado = fGenerales.setSelected(rsGenerales.datos[modelGenerales.TablasGenerales.ESTADOS], 0);
-      primeraNOTFound.datosTramita.comuna = fGenerales.setSelected(rsGenerales.datos[modelGenerales.TablasGenerales.COMUNAS], 0);
-      primeraNOTFound.datosTramita.oficina = fGenerales.setSelected(rsGenerales.datos[modelGenerales.TablasGenerales.OFICINAS], 0);
-      primeraNOTFound.datosTramita.observacion = fGenerales.setSelected(rsGenerales.datos[modelGenerales.TablasGenerales.OBSERVACIONES], 0);
+      if (primeraSearch.clienteID == modelGenerales.TablasEmpresas.BANCOCORPBANCA) {
+        const defaultEstado = 0;
+        const defaultComuna = 0;
+        const defaultOficina = 0;
+        const defaultObservacion = 0;
+        const defaultValorPrimeraInscripcion = 0;
+        const defaultValorTramita = 0;
+        const defaultValorTAG = 0;
+        const defaultValorNotaria = 0;
+        const defaultValorDespacho = 0;
+      } else if (primeraSearch.clienteID == modelGenerales.TablasEmpresas.BANCOSANTANDER) {
+        const defaultEstado = 0;
+        const defaultComuna = 0;
+        const defaultOficina = 0;
+        const defaultObservacion = 0;
+        const defaultValorPrimeraInscripcion = 0;
+        const defaultValorTramita = 0;
+        const defaultValorTAG = 0;
+        const defaultValorNotaria = 0;
+        const defaultValorDespacho = 0;
+      } else if (primeraSearch.clienteID == modelGenerales.TablasEmpresas.BANCOCHILE) {
+        const defaultEstado = 0;
+        const defaultComuna = 0;
+        const defaultOficina = 0;
+        const defaultObservacion = 0;
+        const defaultValorPrimeraInscripcion = 0;
+        const defaultValorTramita = 0;
+        const defaultValorTAG = 0;
+        const defaultValorNotaria = 0;
+        const defaultValorDespacho = 0;
+      } else if (primeraSearch.clienteID == modelGenerales.TablasEmpresas.BANCOITAU) {
+        const defaultEstado = 0;
+        const defaultComuna = 0;
+        const defaultOficina = 0;
+        const defaultObservacion = 0;
+        const defaultValorPrimeraInscripcion = 0;
+        const defaultValorTramita = 0;
+        const defaultValorTAG = 0;
+        const defaultValorNotaria = 0;
+        const defaultValorDespacho = 0;
+      } else if (primeraSearch.clienteID == modelGenerales.TablasEmpresas.CREDITOEINVERSIONES) {
+        const defaultEstado = 0;
+        const defaultComuna = 0;
+        const defaultOficina = 0;
+        const defaultObservacion = 0;
+        const defaultValorPrimeraInscripcion = 0;
+        const defaultValorTramita = 0;
+        const defaultValorTAG = 0;
+        const defaultValorNotaria = 0;
+        const defaultValorDespacho = 0;
+      } else if (primeraSearch.clienteID == modelGenerales.TablasEmpresas.SCANIA) {
+        const defaultEstado = 0;
+        const defaultComuna = 0;
+        const defaultOficina = 0;
+        const defaultObservacion = 0;
+        const defaultValorPrimeraInscripcion = 0;
+        const defaultValorTramita = 0;
+        const defaultValorTAG = 0;
+        const defaultValorNotaria = 0;
+        const defaultValorDespacho = 0;
+      } else if (primeraSearch.clienteID == modelGenerales.TablasEmpresas.SANTANDERFACTORY) {
+        const defaultEstado = 0;
+        const defaultComuna = 0;
+        const defaultOficina = 0;
+        const defaultObservacion = 0;
+        const defaultValorPrimeraInscripcion = 0;
+        const defaultValorTramita = 0;
+        const defaultValorTAG = 0;
+        const defaultValorNotaria = 0;
+        const defaultValorDespacho = 0;
+      } else if (primeraSearch.clienteID == modelGenerales.TablasEmpresas.BODEGASGENERALES) {
+        const defaultEstado = 0;
+        const defaultComuna = 0;
+        const defaultOficina = 0;
+        const defaultObservacion = 0;
+        const defaultValorPrimeraInscripcion = 0;
+        const defaultValorTramita = 0;
+        const defaultValorTAG = 0;
+        const defaultValorNotaria = 0;
+        const defaultValorDespacho = 0;
+      } else if (primeraSearch.clienteID == modelGenerales.TablasEmpresas.BANCOESTADO) {
+        const defaultEstado = 0;
+        const defaultComuna = 0;
+        const defaultOficina = 0;
+        const defaultObservacion = 0;
+        const defaultValorPrimeraInscripcion = 0;
+        const defaultValorTramita = 0;
+        const defaultValorTAG = 0;
+        const defaultValorNotaria = 0;
+        const defaultValorDespacho = 0;
+      }
+
+      primeraNOTFound.datosTramita.estado = fGenerales.setSelected(rsGenerales.datos[modelGenerales.TablasGenerales.ESTADOS], defaultEstado);
+      primeraNOTFound.datosTramita.comuna = fGenerales.setSelected(rsGenerales.datos[modelGenerales.TablasGenerales.COMUNAS], defaultComuna);
+      primeraNOTFound.datosTramita.oficina = fGenerales.setSelected(rsGenerales.datos[modelGenerales.TablasGenerales.OFICINAS], defaultOficina);
+      primeraNOTFound.datosTramita.observacion = fGenerales.setSelected(rsGenerales.datos[modelGenerales.TablasGenerales.OBSERVACIONES], defaultObservacion);
       primeraNOTFound.datosTramita.numeroPlacas = modelGenerales.TablasGenerales.cantidadPlacas;
       primeraNOTFound.datosTramita.valorPrimeraInscripcion = fGenerales.setSelected(
         rsGenerales.datos[modelGenerales.TablasGenerales.VALORESCOBRO].filter((TiposCobro) => TiposCobro["tipoCobro"] == "PRIMERA INSCRIPCION"),
-        0 // Valor por defecto
+        defaultValorPrimeraInscripcion // Valor por defecto
       );
       primeraNOTFound.datosTramita.valorTramita = fGenerales.setSelected(
         rsGenerales.datos[modelGenerales.TablasGenerales.VALORESCOBRO].filter((TiposCobro) => TiposCobro["tipoCobro"] == "TRAMITA"),
-        0 // Valor por defecto
+        defaultValorTramita // Valor por defecto
       );
       primeraNOTFound.datosTramita.valorServicioTag = fGenerales.setSelected(
         rsGenerales.datos[modelGenerales.TablasGenerales.VALORESCOBRO].filter((TiposCobro) => TiposCobro["tipoCobro"] == "VALOR TAG"),
-        0 // Valor por defecto
+        defaultValorTAG // Valor por defecto
       );
       primeraNOTFound.datosTramita.valorNotaria = fGenerales.setSelected(
         rsGenerales.datos[modelGenerales.TablasGenerales.VALORESCOBRO].filter((TiposCobro) => TiposCobro["tipoCobro"] == "NOTARIA"),
-        0 // Valor por defecto
+        defaultValorNotaria // Valor por defecto
       );
       primeraNOTFound.datosTramita.valorDespachoCorreo = fGenerales.setSelected(
         rsGenerales.datos[modelGenerales.TablasGenerales.VALORESCOBRO].filter((TiposCobro) => TiposCobro["tipoCobro"] == "DESPACHO"),
-        0 // Valor por defecto
+        defaultValorDespacho // Valor por defecto
       );
       primeraNOTFound.datosVehiculo = modelVehiculos;
       primeraNOTFound.datosAdquirente = modelPersonasEmpresas;

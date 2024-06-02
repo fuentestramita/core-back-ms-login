@@ -57,4 +57,16 @@ const TablasGenerales = {
   OFICINAS: 24,
 };
 
-module.exports = { cantidadPlacas, Mensajes, TablasGenerales };
+const TablasEmpresas = {
+  BANCOCORPBANCA: 1,
+  BANCOSANTANDER: 2,
+  BANCOCHILE: 3,
+  BANCOITAU: 4,
+  CREDITOEINVERSIONES: 5,
+  SCANIA: 6,
+  SANTANDERFACTORY: 7,
+  BODEGASGENERALES: 8,
+  BANCOESTADO: 9,
+};
+
+module.exports = { cantidadPlacas, Mensajes, TablasGenerales, TablasEmpresas };
