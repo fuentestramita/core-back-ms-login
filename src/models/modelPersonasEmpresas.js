@@ -1,7 +1,7 @@
 var sql = require("mssql");
 
 const PersonaEmpresaSchema = {
-  id: (sql.TYPES.Numeric, null),
+  personaEmpresaID: (sql.TYPES.Numeric, null),
   rut: (sql.TYPES.VarChar, ""),
   nombreRazonSocial: (sql.TYPES.VarChar, ""),
   apPaterno: (sql.TYPES.VarChar, ""),

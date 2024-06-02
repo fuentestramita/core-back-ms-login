@@ -2,8 +2,8 @@ var sql = require("mssql");
 
 const DespachosSchema = [
   {
-    despachoID: (sql.TYPES.Numeric, null),
-    drimeraInscripcionID: (sql.TYPES.Numeric, null),
+    despachoId: (sql.TYPES.Numeric, null),
+    drimeraInscripcionId: (sql.TYPES.Numeric, null),
     origen: (sql.TYPES.VarChar, null),
     solicitaDespacho: (sql.TYPES.Bit, null),
     imprimirParaEntrega: (sql.TYPES.Bit, null),
@@ -16,7 +16,7 @@ const DespachosSchema = [
     fechaRecepcionCourier: (sql.TYPES.Date, null),
     fechaEntregaCourier: (sql.TYPES.Date, null),
     codigoDespachoCourier: (sql.TYPES.VarChar, null),
-    servicioCourierID: (sql.TYPES.Numeric, null),
+    servicioCourierId: (sql.TYPES.Numeric, null),
     servicioCourier: (sql.TYPES.VarChar, null),
   },
 ];

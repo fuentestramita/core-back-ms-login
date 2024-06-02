@@ -1,18 +1,21 @@
-const Mensajes = [
-  {
+const Mensajes = {
+  NOT_FOUND: {
     id: "REG_NOTFOUND",
     descripcion: "Registro no Encontrado",
   },
-  {
-    id: "REG_DELETED",
-    descripcion: "Registro Eliminado",
-  },
-  {
+  REG_SAVED: {
     id: "REG_SAVED",
     descripcion: "Registro Grabado",
   },
-];
-
+  REG_DELETED: {
+    id: "REG_DELETED",
+    descripcion: "Registro Eliminado",
+  },
+  REG_FOUND: {
+    id: "REG_FOUND",
+    descripcion: "Registro Encontrado",
+  },
+};
 const cantidadPlacas = [
   {
     id: 1,
@@ -54,4 +57,4 @@ const TablasGenerales = {
   OFICINAS: 24,
 };
 
-module.exports = (cantidadPlacas, Mensajes, TablasGenerales);
+module.exports = { cantidadPlacas, Mensajes, TablasGenerales };
