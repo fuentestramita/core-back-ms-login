@@ -16,6 +16,8 @@ const dbDocumentosRecibidos = require("../database/DocumentosRecibidosDB");
 const dbPersonaEmpresas = require("../database/PersonasEmpresasDB");
 const dbVehiculos = require("../database/VehiculosDB");
 
+//TODO aqui Agregar la validacion de token como la del menu
+
 const getPrimeraInscripcion = async (req, res) => {
   try {
     const primeraSearch = {
@@ -169,7 +171,7 @@ const getPrimeraInscripcion = async (req, res) => {
       primeraFound.datosTramita.numeroFactura = rsPrimera.datos[0].numeroFactura;
       primeraFound.datosTramita.rutCliente = rsPrimera.datos[0].rutCliente;
       primeraFound.datosTramita.vencimientoContratoLeasing = rsPrimera.datos[0].vencimientoContratoLeasing;
-      primeraFound.datosTramita.rutRepresentanteLegal = rsPrimera.datos[0].rutRepresentanteLegal;
+      primeraFound.datosTramita.rutRepresentanteLegalId = rsPrimera.datos[0].rutRepresentanteLegalId;
       primeraFound.datosTramita.contacto = rsPrimera.datos[0].contacto;
       primeraFound.datosTramita.telefonoContacto = rsPrimera.datos[0].telefonoContacto;
       primeraFound.datosTramita.emailContacto = rsPrimera.datos[0].emailContacto;
@@ -217,7 +219,7 @@ const getPrimeraInscripcion = async (req, res) => {
       primeraFound.datosTramita.valorCobroId = rsPrimera.datos[0].valorCobroId;
       primeraFound.datosTramita.clienteId = rsPrimera.datos[0].clienteId;
       primeraFound.datosTramita.nombreRazonSocialCliente = rsPrimera.datos[0].nombreRazonSocialCliente;
-      primeraFound.datosTramita.representanteLegalId = rsPrimera.datos[0].representanteLegalID;
+      primeraFound.datosTramita.representanteLegal = rsPrimera.datos[0].representanteLegal;
       primeraFound.datosTramita.nombreRazonSocialRepresentanteLegal = rsPrimera.datos[0].nombreRazonSocialRepresentanteLegal;
       primeraFound.datosTramita.usuarioId = rsPrimera.datos[0].usuarioId;
       primeraFound.datosTramita.adquirenteId = rsPrimera.datos[0].adquirenteId;
@@ -277,8 +279,19 @@ const getPrimeraInscripcion = async (req, res) => {
       return res.status(200).json(primeraFound);
     }
   } catch (error) {
-    console.log(error.json);
+    console.log(error.json); //TODO aqui se debe crear la insercion en la base de datos, SP INS_LogErrores
   }
 };
 
-module.exports = { getPrimeraInscripcion };
+const savePrimeraInscripcion = async (req, res) => {
+  const bodyPrimeraInscripcion = req.body;
+  try {
+    let retorno = await dbPrimera.INS_PrimeraInscripcion(bodyPrimeraInscripcion);
+    return res.status(200).json(retorno);
+  } catch (error) {
+    console.log(error.json); //TODO aqui se debe crear la insercion en la base de datos, SP INS_LogErrores
+    return error;
+  }
+};
+
+module.exports = { getPrimeraInscripcion, savePrimeraInscripcion };

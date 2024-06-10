@@ -69,4 +69,6 @@ const TablasEmpresas = {
   BANCOESTADO: 9,
 };
 
-module.exports = { cantidadPlacas, Mensajes, TablasGenerales, TablasEmpresas };
+const RetornoInsert = { datos: [{ ErrorNumber: 0, ErrorMessage: "" }] };
+
+module.exports = { cantidadPlacas, Mensajes, TablasGenerales, TablasEmpresas, RetornoInsert };

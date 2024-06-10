@@ -5,7 +5,6 @@ const modelEstados = require("../models/modelEstado");
 const modelComunas = require("../models/modelComuna");
 const modelOficinas = require("../models/modelOficina");
 const modelObservaciones = require("../models/modelObservacion");
-const modelCantidadPlacas = require("./modelGenerales").default;
 const modelValoresCobro = require("../models/modelValoresCobro");
 const modelPersonaEmpresas = require("../models/modelPersonasEmpresas");
 const modelDocumentoRecibido = require("../models/modelDocumentosRecibidos");
@@ -28,7 +27,7 @@ const PrimeraInscripcionSchema = {
     rutCliente: (sql.TYPES.VarChar, ""),
     nombreRazonSocialCliente: (sql.TYPES.VarChar, ""),
     vencimientoContratoLeasing: (sql.TYPES.DateTime, null),
-    representanteLegalId: (sql.TYPES.VarChar, ""),
+    representanteLegalId: (sql.TYPES.Numeric, 0),
     nombreRazonSocialRepresentanteLegal: (sql.TYPES.VarChar, ""),
     comunaId: (sql.TYPES.Numeric, 0),
     comuna: modelComunas,
@@ -51,11 +50,11 @@ const PrimeraInscripcionSchema = {
 
     observacionId: (sql.TYPES.Numeric, 0),
     observacion: modelObservaciones,
-    numeroPlacas: modelGenerales.cantidadPlacas,
     chktag: (sql.TYPES.Bit, 0),
     chkPlacas: (sql.TYPES.Bit, 0),
 
-    numeroPlacas: (sql.TYPES.DateTime, null),
+    numeroPlacas: (sql.TYPES.Numeric, null),
+    fechaIngresoRnvm: (sql.TYPES.DateTime, null),
     observaciones: (sql.TYPES.VarChar, ""),
     correlativoEntrega: (sql.TYPES.VarChar, ""),
     folio: (sql.TYPES.VarChar, ""),

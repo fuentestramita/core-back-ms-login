@@ -30,21 +30,21 @@ const INS_PrimeraInscripcion = async (primera) => {
     let pool = await DB.getConnection();
     let result1 = await pool
       .request()
-      .input("primeraInscripcionId", primera.datosTramita.primeraInscripcionID)
-      .input("empresaId", primera.datosTramita.empresaID)
+      .input("primeraInscripcionId", primera.datosTramita.primeraInscripcionId)
+      .input("empresaId", primera.datosTramita.empresaId)
       .input("ppu", primera.datosTramita.ppu)
       .input("numeroOperacion", primera.datosTramita.numeroOperacion)
       .input("origen", primera.datosTramita.origen)
       .input("numeroFactura", primera.datosTramita.numeroFactura)
       .input("rutCliente", primera.datosTramita.rutCliente)
       .input("vencimientoContratoLeasing", primera.datosTramita.vencimientoContratoLeasing)
-      .input("rutRepresentanteLegal", primera.datosTramita.rutRepresentanteLegal)
+      .input("RepresentanteLegalID", primera.datosTramita.representanteLegalId)
       .input("contacto", primera.datosTramita.contacto)
       .input("telefonoContacto", primera.datosTramita.telefonoContacto)
       .input("emailContacto", primera.datosTramita.emailContacto)
       .input("numeroSolicitud", primera.datosTramita.numeroSolicitud)
       .input("estaEntregado", primera.datosTramita.estaEntregado)
-      .input("fechaSolicitudRnvm", primera.datosTramita.fechaSolicitudRNVM)
+      .input("fechaSolicitudRnvm", primera.datosTramita.fechaSolicitudRnvm)
       .input("numeroValija", primera.datosTramita.numeroValija)
       .input("ejecutivo", primera.datosTramita.ejecutivo)
       .input("sucursal", primera.datosTramita.sucursal)
@@ -52,7 +52,7 @@ const INS_PrimeraInscripcion = async (primera) => {
       .input("fechaPadron", primera.datosTramita.fechaPadron)
       .input("codigoDespachoCorreo", primera.datosTramita.codigoDespachoCorreo)
       .input("numeroPlacas", primera.datosTramita.numeroPlacas)
-      .input("fechaIngresoRnvm", primera.datosTramita.numeroPlacas)
+      .input("fechaIngresoRnvm", primera.datosTramita.fechaIngresoRnvm)
       .input("observaciones", primera.datosTramita.observaciones)
       .input("correlativoEntrega", primera.datosTramita.correlativoEntrega)
       .input("folio", primera.datosTramita.folio)
@@ -80,29 +80,33 @@ const INS_PrimeraInscripcion = async (primera) => {
       .input("informativoSeguro", primera.datosTramita.informativoSeguro)
       .input("fechaCreacion", primera.datosTramita.fechaCreacion)
       .input("fechaActualizacion", primera.datosTramita.fechaActualizacion)
-      .input("vehiculoId", primera.datosVehiculo.vehiculoID)
-      .input("comunaId", primera.datosTramita.comunaID)
-      .input("estadoId", primera.datosTramita.estadoID)
-      .input("observacionId", primera.datosTramita.observacionID)
-      .input("clienteId", primera.datosTramita.clienteID)
-      .input("usuarioId", primera.datosTramita.usuarioID)
-      .input("adquirenteId", primera.datosAdquirente.adquirenteID)
-      .input("valorPrimeraInscripcionId", primera.datosTramita.valorPrimeraInscripcionID)
-      .input("valorTramitaId", primera.datosTramita.valorTramitaID)
-      .input("valorServicioTagId", primera.datosTramita.valorServicioTagID)
-      .input("valorNotariaId", primera.datosTramita.valorNotariaID)
-      .input("valorDespachoCorreoId", primera.datosTramita.valorDespachoCorreoID)
-      .input("oficinaId", primera.datosTramita.oficinaID)
+      .input("vehiculoId", primera.datosVehiculo.vehiculoId)
+      .input("comunaId", primera.datosTramita.comunaId)
+      .input("estadoId", primera.datosTramita.estadoId)
+      .input("observacionId", primera.datosTramita.observacionId)
+      .input("clienteId", primera.datosTramita.clienteId)
+      .input("usuarioId", primera.datosTramita.usuarioId)
+      .input("adquirenteId", primera.datosAdquirente.personaEmpresaID)
+      .input("valorPrimeraInscripcionId", primera.datosTramita.valorPrimeraInscripcionId)
+      .input("valorTramitaId", primera.datosTramita.valorTramitaId)
+      .input("valorServicioTagId", primera.datosTramita.valorServicioTagId)
+      .input("valorNotariaId", primera.datosTramita.valorNotariaId)
+      .input("valorDespachoCorreoId", primera.datosTramita.valorDespachoCorreoId)
+      .input("oficinaId", primera.datosTramita.oficinaId)
       .input("anoProceso", primera.datosTramita.anoProceso)
       .input("anoFiltro", primera.datosTramita.anoFiltro)
       .input("chkTag", primera.datosTramita.chktag)
       .input("chkPlacas", primera.datosTramita.chkPlacas)
-
-      .execute("INS_PrimeraInscripcion");
-
-    const result = { datos: result1.recordsets };
-    return result;
+      .execute("INS_PrimeraInscripcion")
+      .then((result1) => {
+        return result1;
+      })
+      .catch((err) => {
+        console.log(`Error executing sp ${err}`);
+      });
+    return { datos: result1.recordsets };
   } catch (err) {
+    console.log(`Error ${err.stack}`); //TODO insertar el error en la tabla logErrores
     return { error: err };
   }
 };
