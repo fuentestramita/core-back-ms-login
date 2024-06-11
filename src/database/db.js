@@ -209,6 +209,52 @@ function validateUser(password, hash) {
     .catch((err) => console.error(err.message));
 }
 
+const createConnection = async () => {
+  if (!poolRequest) {
+    try {
+      const pool = new sql.ConnectionPool(sqlConfig);
+      poolRequest = pool.connect();
+    } catch (err) {
+      return { error: err };
+    }
+  }
+  return poolRequest;
+  strParams = "";
+  return dbPool;
+};
+
+const addParameter = async (dbRequest, paramName, paramType, paramValue) => {
+  dbRequest = await dbRequest.input(paramName, paramType, paramValue);
+  return dbRequest;
+};
+const executeSP = async (dbRequest, storeProcedure) => {
+  let strStackTrace = `exec ${dbRequest.parent.config.database}.dbo.${storeProcedure} `;
+  objeto = dbRequest.parameters;
+  for (const nombrePropiedad in objeto) {
+    if (objeto.hasOwnProperty(nombrePropiedad)) {
+      const propiedad = objeto[nombrePropiedad];
+      if (propiedad.type.name == "NVarChar" || propiedad.type.name == "VarChar" || propiedad.type.name == "NVarChar")
+        if (propiedad.value == null) strStackTrace += ` null,  --${propiedad.name}\n`;
+        else strStackTrace += ` '${propiedad.value}', --${propiedad.name}\n`;
+      else if (propiedad.type.name == "Bit") strStackTrace += ` ${propiedad.value == true ? 1 : 0}, --${propiedad.name}\n`;
+      else strStackTrace += ` ${propiedad.value}, --${propiedad.name}\n`;
+    }
+  }
+
+  let rsResultado = await dbRequest
+    .execute(storeProcedure)
+    .then((rsResultado) => {
+      if (rsResultado.recordset.columns.errorNumber != undefined) console.log(strStackTrace); //Todo Aqui actualizar el stacktrace en el error
+
+      return rsResultado;
+    })
+    .catch((err) => {
+      console.log(`Error executing sp ${err}`);
+    });
+  strParams = "";
+  return rsResultado;
+};
+
 module.exports = {
   getConnection,
   dbLogin: dbLogin,
@@ -218,4 +264,7 @@ module.exports = {
   getMenu: getMenu,
   getPPU: getPPU,
   dbGetUser,
+  addParameter,
+  createConnection,
+  executeSP,
 };
